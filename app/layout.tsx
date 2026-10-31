@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Instrument_Serif, Outfit } from "next/font/google";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { MotionBackground } from "@/components/motion-background";
 import { Providers } from "@/components/providers";
 import { site } from "@/lib/site";
 import "./globals.css";
@@ -52,7 +53,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="min-h-screen antialiased">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <Providers>
-          <div id="top" className="min-h-screen border-line lg:mx-16 lg:border-x xl:mx-20">
+          <MotionBackground />
+          <div id="top" className="relative z-10 min-h-screen border-line lg:mx-16 lg:border-x xl:mx-20">
             <Header />
             {children}
             <Footer />
