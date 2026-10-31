@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { filters, projects } from "@/lib/site";
+import { WorkThumbnail } from "@/components/work-thumbnail";
 
 export function ProjectGrid() {
   const [active, setActive] = useState("all");
@@ -36,11 +37,7 @@ export function ProjectGrid() {
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {visible.map((project) => (
           <article key={project.title} className="border border-line bg-card transition-colors hover:border-blue">
-            <div className="relative h-40 overflow-hidden border-b border-line bg-[#070d16]">
-              <div className="absolute top-8 left-8 h-16 w-16 rotate-45 bg-blue/80" />
-              <div className="absolute top-14 left-20 h-10 w-10 rotate-12 bg-cyan/90" />
-              <p className="absolute right-4 bottom-3 text-[11px] font-semibold tracking-[0.16em] text-faint">STUDIO SHAPE</p>
-            </div>
+            <WorkThumbnail />
             <div className="space-y-2 p-6">
               <p className="text-[11px] font-semibold tracking-[0.16em] text-cyan">{project.label}</p>
               <h2 className="font-display text-2xl italic">{project.title}</h2>
