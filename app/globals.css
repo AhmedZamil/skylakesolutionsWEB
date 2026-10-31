@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-serif), ui-serif, Georgia, serif;
+  --color-bg: #05070c;
+  --color-ink: #e7eef8;
+  --color-muted: #93a0b5;
+  --color-faint: #66758c;
+  --color-line: #243246;
+  --color-line-strong: #35506e;
+  --color-blue: #1f6bff;
+  --color-blue-deep: #1248c7;
+  --color-cyan: #00d8f0;
+  --color-card: #0b111a;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: #1f6bff;
+  color: white;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-cyan);
+  outline-offset: 3px;
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(to right, rgba(31, 107, 255, 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(31, 107, 255, 0.09) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at center, black 20%, transparent 72%);
+}
+
+.rise {
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.flow-dash {
+  stroke-dasharray: 4 14;
+  animation: dashflow 6s linear infinite;
+}
+
+@keyframes dashflow {
+  to {
+    stroke-dashoffset: -240;
+  }
+}
+
+@keyframes pulse-ring {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0;
+    transform: scale(1.18);
+  }
+}
+
+.pulse-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse-ring 3s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .rise,
+  .flow-dash,
+  .pulse-ring {
+    animation: none;
+  }
+}
