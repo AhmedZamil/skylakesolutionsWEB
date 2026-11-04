@@ -63,9 +63,38 @@ body {
   animation: dashflow 6s linear infinite;
 }
 
+.live-dot {
+  box-shadow: 0 0 10px #00d8f0;
+  animation: live-pulse 1.6s ease-in-out infinite;
+}
+
+.approach-glow {
+  animation: approach-glow 2.4s ease-in-out infinite;
+}
+
 @keyframes dashflow {
   to {
     stroke-dashoffset: -240;
+  }
+}
+
+@keyframes live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes approach-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(0, 216, 240, 0);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(0, 216, 240, 0.45);
   }
 }
 
@@ -208,6 +237,8 @@ html[data-intro="skip"] .intro-cover {
   .rise,
   .flow-dash,
   .pulse-ring,
+  .live-dot,
+  .approach-glow,
   .motion-grain,
   .intro-letter,
   .intro-line,

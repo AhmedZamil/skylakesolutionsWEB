@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -116,6 +116,16 @@ function Chip({
 export function Comparison() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.25 });
+  const reduce = useReducedMotion();
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    if (!inView || reduce) return;
+    const timer = window.setInterval(() => {
+      setActive((current) => (current + 1) % steps.length);
+    }, 1600);
+    return () => window.clearInterval(timer);
+  }, [inView, reduce]);
 
   return (
     <section ref={ref} className="border-b border-line px-6 py-16 sm:px-8 sm:py-20">
@@ -161,26 +171,31 @@ export function Comparison() {
             We learn how the work actually runs, then build software that fits it.
           </p>
           <ul className="mx-auto mt-6 flex max-w-md flex-col">
-            {steps.map((step, index) => (
-              <motion.li
-                key={step}
-                className="flex items-center gap-3 border-b border-line py-3 text-sm text-ink"
-                initial={{ opacity: 0, y: 10 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.12 * index, duration: 0.45, ease }}
-              >
-                <span className="grid size-6 place-items-center bg-cyan text-[11px] font-bold text-black">
-                  {index + 1}
-                </span>
-                {step}
-              </motion.li>
-            ))}
+            {steps.map((step, index) => {
+              const on = Boolean(reduce) || !inView || index === active;
+              return (
+                <motion.li
+                  key={step}
+                  className="flex items-center gap-3 border-b border-line py-3 text-sm"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 0.12 * index, duration: 0.45, ease }}
+                >
+                  <span
+                    className={`grid size-6 place-items-center text-[11px] font-bold transition-colors duration-500 ${on ? "bg-cyan text-black" : "bg-line text-faint"}`}
+                  >
+                    {index + 1}
+                  </span>
+                  <span className={`transition-colors duration-500 ${on ? "text-ink" : "text-muted"}`}>{step}</span>
+                </motion.li>
+              );
+            })}
           </ul>
           <div className="mt-4">
             <Fan seen={inView} delay={0.7} accent="#00d8f0" />
           </div>
           <motion.div
-            className="mx-auto -mt-1 flex w-fit items-center gap-3 px-4 py-2.5 text-white"
+            className="approach-glow mx-auto -mt-1 flex w-fit items-center gap-3 px-4 py-2.5 text-white"
             style={{ background: "linear-gradient(135deg, #1f6bff 0%, #00d8f0 100%)" }}
             initial={{ opacity: 0, y: 8 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CapabilityGrid } from "@/components/diagrams";
+import { CapabilityGrid, LiveWindow } from "@/components/diagrams";
 import { Comparison } from "@/components/comparison";
 import { CtaBand } from "@/components/cta-band";
 import { FaqList } from "@/components/faq-list";
@@ -10,26 +10,29 @@ import { pillars, practices, promises, stack } from "@/lib/site";
 export default function HomePage() {
   return (
     <main>
-      <section className="relative overflow-hidden border-b border-line px-6 py-24 sm:px-8 sm:py-32">
+      <section className="relative overflow-hidden border-b border-line px-6 py-16 sm:px-8 sm:py-24">
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
-        <Reveal className="relative mx-auto max-w-4xl text-center">
-          <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">Software engineering studio</p>
-          <h1 className="mt-5 text-4xl leading-[1.02] font-semibold tracking-[-0.035em] sm:text-6xl lg:text-7xl">
-            Every product is particular.
-            <span className="mt-2 block font-display font-normal text-cyan italic">The software should be too.</span>
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-            Sky Lake Solutions designs, builds, and runs web, mobile, and cloud products for teams that need software they can trust, from the first release onward.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Link href="/contact" className="inline-flex h-12 items-center bg-blue px-6 text-sm font-semibold text-white hover:bg-[#3c86f5]">
-              Start a project
-            </Link>
-            <Link href="/work" className="inline-flex h-12 items-center border border-line-strong px-6 text-sm font-semibold hover:border-cyan hover:text-cyan">
-              See the work
-            </Link>
-          </div>
-        </Reveal>
+        <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10">
+          <Reveal className="text-center lg:text-left">
+            <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">Software engineering studio</p>
+            <h1 className="mt-5 text-4xl leading-[1.02] font-semibold tracking-[-0.035em] sm:text-6xl">
+              Every product is particular.
+              <span className="mt-2 block font-display font-normal text-cyan italic">The software should be too.</span>
+            </h1>
+            <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted lg:mx-0">
+              Sky Lake Solutions designs, builds, and runs web, mobile, and cloud products for teams that need software they can trust, from the first release onward.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+              <Link href="/contact" className="inline-flex h-12 items-center bg-blue px-6 text-sm font-semibold text-white hover:bg-[#3c86f5]">
+                Start a project
+              </Link>
+              <Link href="/work" className="inline-flex h-12 items-center border border-line-strong px-6 text-sm font-semibold hover:border-cyan hover:text-cyan">
+                See the work
+              </Link>
+            </div>
+          </Reveal>
+          <LiveWindow />
+        </div>
       </section>
 
       <section className="grid border-b border-line sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-line">

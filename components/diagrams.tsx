@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import type { ReactNode } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const popEase = [0.34, 1.56, 0.64, 1] as const;
@@ -33,15 +33,19 @@ const blue = "#1f6bff";
 const mute = "rgba(231,238,248,0.2)";
 const label = "#9aa8bd";
 
+const StageSize = createContext<"full" | "live">("full");
+
 function Frame({ children, viewBox = "0 0 560 300" }: { children: ReactNode; viewBox?: string }) {
+  const reduce = useReducedMotion();
+  const stage = useContext(StageSize);
   return (
     <motion.svg
       viewBox={viewBox}
-      className="h-56 w-full"
+      className={stage === "live" ? "h-40 w-full" : "h-56 w-full"}
       fill="none"
-      initial="hidden"
+      initial={reduce ? "visible" : "hidden"}
       whileInView="visible"
-      viewport={{ once: false, amount: 0.4 }}
+      viewport={{ once: Boolean(reduce), amount: 0.4 }}
       variants={parent}
       role="img"
     >
@@ -277,6 +281,61 @@ const cards = [
     Viz: Care,
   },
 ];
+
+export function LiveWindow() {
+  const reduce = useReducedMotion();
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (reduce) return;
+    const timer = window.setInterval(() => {
+      setIndex((current) => (current + 1) % cards.length);
+    }, 3600);
+    return () => window.clearInterval(timer);
+  }, [reduce]);
+
+  const shown = reduce ? 0 : index;
+  const card = cards[shown];
+  const Viz = card.Viz;
+
+  return (
+    <StageSize.Provider value="live">
+      <div className="mx-auto w-full max-w-[420px] overflow-hidden rounded-xl border border-line bg-[#070b12] shadow-[0_28px_80px_rgba(0,0,0,0.45)]">
+        <div className="flex items-center gap-3 border-b border-line px-4 py-2.5">
+          <span className="flex gap-1.5" aria-hidden="true">
+            <span className="size-2 rounded-full bg-[#ff5f57]" />
+            <span className="size-2 rounded-full bg-[#febc2e]" />
+            <span className="size-2 rounded-full bg-[#28c840]" />
+          </span>
+          <p className="text-[11px] tracking-[0.22em] text-muted uppercase">Sky Lake / Live</p>
+          <span className="ml-auto inline-flex items-center gap-1.5 text-[10px] tracking-[0.18em] text-cyan">
+            <span className="live-dot size-1.5 rounded-full bg-cyan" aria-hidden="true" />
+            Rec
+          </span>
+        </div>
+        <div className="px-3 pt-2" aria-hidden="true">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={card.title}
+              initial={reduce ? false : { opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduce ? undefined : { opacity: 0, y: -8 }}
+              transition={{ duration: 0.45, ease }}
+            >
+              <Viz />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+        <div className="flex items-center justify-between gap-4 border-t border-line px-4 py-3">
+          <p className="font-display text-lg text-cyan italic">{card.title}</p>
+          <p className="shrink-0 text-[11px] tracking-[0.16em] text-faint">
+            {String(shown + 1).padStart(2, "0")} / {String(cards.length).padStart(2, "0")}
+          </p>
+        </div>
+      </div>
+    </StageSize.Provider>
+  );
+}
 
 export function CapabilityGrid() {
   return (
