@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CapabilityGrid, LiveWindow } from "@/components/diagrams";
 import { Comparison } from "@/components/comparison";
+import { ProcessRail } from "@/components/process-rail";
 import { CtaBand } from "@/components/cta-band";
 import { FaqList } from "@/components/faq-list";
 import { Reveal } from "@/components/reveal";
@@ -45,6 +46,20 @@ export default function HomePage() {
       </section>
 
       <Comparison />
+
+      <section className="border-b border-line px-6 py-16 sm:px-8 sm:py-20">
+        <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">Process</p>
+        <h2 className="mt-4 max-w-3xl text-4xl leading-[1.05] font-semibold tracking-[-0.03em] sm:text-6xl">
+          A clear path from
+          <span className="mt-2 block font-display font-normal text-cyan italic">idea to launch.</span>
+        </h2>
+        <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
+          Scroll down and the line travels across the four stages, then into the end. Scroll up and it comes back.
+        </p>
+        <div className="mt-10">
+          <ProcessRail />
+        </div>
+      </section>
 
       <section className="border-b border-line px-6 py-16 sm:px-8 sm:py-24">
         <div className="max-w-2xl">
