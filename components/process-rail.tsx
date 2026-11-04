@@ -12,11 +12,12 @@ const frames = processSteps.length + 1;
 
 function wavePath() {
   const width = frames * 1000;
+  const travel = width * 0.9;
   const mid = 230;
   const amp = 78;
   let d = `M 0 ${mid}`;
   const segments = frames * 2;
-  const seg = width / segments;
+  const seg = travel / segments;
   for (let i = 0; i < segments; i += 1) {
     const x1 = seg * i + seg / 2;
     const x2 = seg * (i + 1);
@@ -24,17 +25,6 @@ function wavePath() {
     d += ` Q ${x1} ${y1} ${x2} ${mid}`;
   }
   return { d, width, mid, amp, segments };
-}
-
-function waveY(x: number, wave: ReturnType<typeof wavePath>) {
-  const seg = wave.width / wave.segments;
-  const i = Math.min(wave.segments - 1, Math.max(0, Math.floor(x / seg)));
-  const t = (x - i * seg) / seg;
-  const y0 = wave.mid;
-  const y1 = wave.mid + (i % 2 === 0 ? -wave.amp : wave.amp);
-  const y2 = wave.mid;
-  const rest = 1 - t;
-  return rest * rest * y0 + 2 * rest * t * y1 + t * t * y2;
 }
 
 const wave = wavePath();
@@ -134,11 +124,11 @@ function Trophy({ lit = false, mark }: { lit?: boolean; mark: string }) {
         <g
           fill="none"
           stroke={`url(#${mark})`}
-          strokeWidth="3"
+          strokeWidth="5"
           strokeLinejoin="round"
           strokeLinecap="round"
           style={{
-            filter: "drop-shadow(0 0 calc(var(--light, 0) * 16px) rgba(0, 216, 240, 0.85))",
+            filter: "drop-shadow(0 0 calc(var(--light, 0) * 10px) #1f6bff) drop-shadow(0 0 calc(var(--light, 0) * 22px) #00d8f0)",
           }}
         >
           {[
@@ -177,7 +167,7 @@ function Trophy({ lit = false, mark }: { lit?: boolean; mark: string }) {
         className="mt-2 text-[11px] tracking-[0.28em] text-muted uppercase"
         style={{ opacity: "var(--light, 0)" }}
       >
-        End of the path
+        End of process
       </p>
       <p className="font-display text-3xl text-cyan italic" style={{ opacity: "var(--light, 0)" }}>
         Shipped.
@@ -197,6 +187,7 @@ export function ProcessRail() {
   const viewRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
+  const trailRef = useRef<SVGPathElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
   const stepRef = useRef(0);
   const [step, setStep] = useState(0);
@@ -220,6 +211,21 @@ export function ProcessRail() {
       track.style.transform = `translate3d(${-progress * maxX}px, 0, 0)`;
       if (barRef.current) barRef.current.style.transform = `scaleX(${progress})`;
 
+      const trail = trailRef.current;
+      if (trail) {
+        const length = trail.getTotalLength();
+        const drawn = length * progress;
+        trail.style.strokeDasharray = `${length}`;
+        trail.style.strokeDashoffset = `${length - drawn}`;
+        if (dotRef.current && track.offsetWidth > 0 && length > 0) {
+          const point = trail.getPointAtLength(drawn);
+          const x = (point.x / wave.width) * track.offsetWidth - progress * maxX;
+          const y = (point.y / 460) * view.clientHeight;
+          dotRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+          dotRef.current.style.opacity = progress > 0.004 ? "1" : "0";
+        }
+      }
+
       const index = Math.min(frames - 1, Math.max(0, Math.round(progress * (frames - 1))));
       if (index !== stepRef.current) {
         stepRef.current = index;
@@ -230,14 +236,6 @@ export function ProcessRail() {
       const light = Math.min(1, Math.max(0, (progress - lightStart) / (1 - lightStart)));
       const finale = track.querySelector<HTMLElement>("[data-success]");
       if (finale) finale.style.setProperty("--light", light.toFixed(4));
-
-      if (dotRef.current && track.offsetWidth > 0) {
-        const screenX = view.clientWidth * 0.3;
-        const trackX = Math.min(track.offsetWidth - 1, progress * maxX + screenX);
-        const y = (waveY((trackX / track.offsetWidth) * wave.width, wave) / 460) * view.clientHeight;
-        dotRef.current.style.transform = `translate3d(${screenX}px, ${y}px, 0) translate(-50%, -50%)`;
-        dotRef.current.style.opacity = progress > 0.01 ? "1" : "0";
-      }
     };
 
     const requestPaint = () => {
@@ -291,11 +289,11 @@ export function ProcessRail() {
             </p>
           </div>
 
-          <div className="relative mb-10 h-[2px] bg-line" aria-hidden="true">
+          <div className="relative mb-10 h-[3px] bg-line" aria-hidden="true">
             <div
               ref={barRef}
               className="h-full w-full origin-left scale-x-0 bg-gradient-to-r from-blue via-cyan to-blue"
-              style={{ boxShadow: "0 0 12px rgba(0, 216, 240, 0.55)" }}
+              style={{ boxShadow: "0 0 14px #1f6bff, 0 0 22px rgba(0, 216, 240, 0.85)" }}
             />
             {processSteps.map((item, index) => (
               <span
@@ -332,7 +330,24 @@ export function ProcessRail() {
                     <stop offset="1" stopColor="#1f6bff" />
                   </linearGradient>
                 </defs>
-                <path d={wave.d} fill="none" stroke="url(#process-wave)" strokeWidth="3" />
+                <filter id="trail-glow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="5" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+                <path d={wave.d} fill="none" stroke="#1f6bff" strokeWidth="3" opacity="0.18" />
+                <path
+                  ref={trailRef}
+                  d={wave.d}
+                  fill="none"
+                  stroke="url(#process-wave)"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  filter="url(#trail-glow)"
+                  style={{ strokeDasharray: 8000, strokeDashoffset: 8000 }}
+                />
               </svg>
               {processSteps.map((item) => (
                 <div key={item.n} className="h-full shrink-0" style={{ width: `${100 / frames}%` }}>
@@ -346,7 +361,7 @@ export function ProcessRail() {
             <div
               ref={dotRef}
               aria-hidden="true"
-              className="pointer-events-none absolute top-0 left-0 z-20 h-3.5 w-3.5 rounded-full bg-cyan opacity-0 shadow-[0_0_18px_#00d8f0]"
+              className="pointer-events-none absolute top-0 left-0 z-20 h-4 w-4 rounded-full bg-cyan opacity-0 shadow-[0_0_8px_#fff,0_0_18px_#00d8f0,0_0_32px_#1f6bff]"
             />
           </div>
         </div>
