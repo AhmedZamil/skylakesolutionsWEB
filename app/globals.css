@@ -63,9 +63,38 @@ body {
   animation: dashflow 6s linear infinite;
 }
 
+.live-dot {
+  box-shadow: 0 0 10px #00d8f0;
+  animation: live-pulse 1.6s ease-in-out infinite;
+}
+
+.approach-glow {
+  animation: approach-glow 2.4s ease-in-out infinite;
+}
+
 @keyframes dashflow {
   to {
     stroke-dashoffset: -240;
+  }
+}
+
+@keyframes live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes approach-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(0, 216, 240, 0);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(0, 216, 240, 0.45);
   }
 }
 
@@ -128,6 +157,78 @@ body {
   }
 }
 
+html.intro-lock {
+  overflow: hidden;
+}
+
+.intro-letter {
+  opacity: 0;
+  animation: intro-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.intro-line,
+.intro-bar {
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  animation: intro-draw 0.7s 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.intro-bar {
+  animation-delay: 0s;
+  animation-duration: 1.8s;
+}
+
+.intro-line {
+  box-shadow: 0 0 24px rgba(0, 216, 240, 0.7);
+}
+
+.intro-corner {
+  opacity: 0;
+  animation: intro-fade 0.6s ease both;
+}
+
+.intro-cover {
+  animation: intro-leave 0.7s 2.45s cubic-bezier(0.7, 0, 0.3, 1) both;
+}
+
+@keyframes intro-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 60px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes intro-draw {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes intro-fade {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes intro-leave {
+  to {
+    transform: translate3d(0, -110%, 0);
+  }
+}
+
+html[data-intro="skip"] .intro-cover {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -136,7 +237,26 @@ body {
   .rise,
   .flow-dash,
   .pulse-ring,
-  .motion-grain {
+  .live-dot,
+  .approach-glow,
+  .motion-grain,
+  .intro-letter,
+  .intro-line,
+  .intro-bar,
+  .intro-corner,
+  .intro-cover {
     animation: none;
+  }
+
+  .intro-cover {
+    display: none;
+  }
+
+  .process-rail {
+    display: none !important;
+  }
+
+  .process-stack {
+    display: block !important;
   }
 }

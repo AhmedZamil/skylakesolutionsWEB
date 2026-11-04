@@ -4,9 +4,11 @@ import { services, site } from "@/lib/site";
 
 const company = [
   { href: "/work", label: "Work" },
+  { href: "/process", label: "Process" },
   { href: "/about", label: "About" },
   { href: "/faq", label: "FAQ" },
   { href: "/careers", label: "Careers" },
+  { href: "/book", label: "Book a call" },
   { href: "/contact", label: "Contact" },
 ];
 

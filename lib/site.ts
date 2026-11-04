@@ -9,6 +9,7 @@ export const site = {
 export const nav = [
   { href: "/services", label: "Services" },
   { href: "/work", label: "Work" },
+  { href: "/process", label: "Process" },
   { href: "/about", label: "About" },
   { href: "/faq", label: "FAQ" },
 ];
@@ -146,28 +147,48 @@ export const practices = [
   },
 ];
 
-export const process = [
+export const processSteps = [
   {
     n: "01",
     title: "Discover",
+    week: "Week 01",
     text: "We learn your users, goals, and constraints, then agree scope and a plan.",
+    deliverables: ["Written scope", "User and constraint notes", "Risk list", "Estimate and timeline"],
+    tools: ["Figma", "Workshops"],
+    next: "Design",
+    tone: "blue",
   },
   {
     n: "02",
     title: "Design",
+    week: "Week 02 — 03",
     text: "Wireframes and interactive prototypes you can test before we build.",
+    deliverables: ["User flows", "Wireframes", "Clickable prototype", "Interface direction"],
+    tools: ["Figma", "Prototypes"],
+    next: "Build",
+    tone: "cyan",
   },
   {
     n: "03",
     title: "Build",
+    week: "Week 03 — 06",
     text: "Sprint-based development with demos, code review, and automated tests.",
+    deliverables: ["Working software", "Reviewed code", "Automated tests", "Staging you can open"],
+    tools: ["React", "Next.js", "Node.js"],
+    next: "Launch",
+    tone: "blue",
   },
   {
     n: "04",
     title: "Launch and grow",
+    week: "Week 06 +",
     text: "We deploy, monitor, and keep improving from real usage.",
+    deliverables: ["Production release", "Monitoring", "Handover notes", "A plan for what is next"],
+    tools: ["AWS", "Docker", "PostgreSQL"],
+    next: "Care",
+    tone: "cyan",
   },
-];
+] as const;
 
 export const values = [
   { title: "Clarity", text: "Plain language, honest estimates, and no surprises in scope or cost." },

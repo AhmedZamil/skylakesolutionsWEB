@@ -34,7 +34,7 @@ export function Header() {
           </span>
         </Link>
 
-        <nav aria-label="Main" className="hidden items-center gap-8 text-[15px] font-medium text-ink/90 lg:flex">
+        <nav aria-label="Main" className="hidden items-center gap-5 text-sm font-medium text-ink/90 lg:flex xl:gap-7 xl:text-[15px]">
           {nav.map((item) => {
             const active = pathname === item.href;
             return (
@@ -50,12 +50,24 @@ export function Header() {
           })}
         </nav>
 
-        <Link
-          href="/contact"
-          className="hidden h-11 items-center bg-blue px-5 text-sm font-semibold text-white transition-colors hover:bg-[#3c86f5] lg:inline-flex"
-        >
-          Start a project
-        </Link>
+        <div className="hidden items-center gap-2 lg:flex">
+          <Link
+            href="/book"
+            className="inline-flex h-11 items-center gap-2 border border-line-strong px-4 text-sm font-semibold text-ink transition-colors hover:border-cyan hover:text-cyan"
+          >
+            <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
+              <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan opacity-70" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-cyan" />
+            </span>
+            Book a call
+          </Link>
+          <Link
+            href="/contact"
+            className="inline-flex h-11 items-center bg-blue px-5 text-sm font-semibold text-white transition-colors hover:bg-[#3c86f5]"
+          >
+            Start a project
+          </Link>
+        </div>
 
         <button
           type="button"
@@ -90,7 +102,13 @@ export function Header() {
               </Link>
             ))}
           </nav>
-          <Link href="/contact" className="mt-5 flex h-12 items-center justify-center bg-blue text-base font-semibold text-white">
+          <Link href="/book" className="mt-5 flex h-12 items-center justify-center gap-2 border border-line-strong text-base font-semibold">
+            <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-cyan" />
+            </span>
+            Book a call
+          </Link>
+          <Link href="/contact" className="mt-3 flex h-12 items-center justify-center bg-blue text-base font-semibold text-white">
             Start a project
           </Link>
         </div>

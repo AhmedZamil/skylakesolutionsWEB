@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { CtaBand } from "@/components/cta-band";
 import { PageHero } from "@/components/page-hero";
-import { process, values } from "@/lib/site";
+import { processSteps, values } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About",
@@ -59,7 +59,7 @@ export default function AboutPage() {
       <section className="border-b border-line px-6 py-16 sm:px-8">
         <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">A clear path from idea to launch</h2>
         <ol className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {process.map((step) => (
+          {processSteps.map((step) => (
             <li key={step.n} className="border-t-2 border-blue pt-5">
               <p className="font-display text-4xl text-blue italic">{step.n}</p>
               <h3 className="mt-3 text-xl font-semibold">{step.title}</h3>
