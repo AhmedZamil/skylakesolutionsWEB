@@ -16,9 +16,9 @@ export default function ProcessPage() {
           <span className="mt-2 block font-display font-normal text-cyan italic">idea to launch.</span>
         </h1>
         <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
-          Four stages, in the order we run them. On a large screen, drag or scroll the rail. The next stage stays in view.
+          Scroll down and the line travels across the four stages, then into the end. Scroll up and it comes back.
         </p>
-        <div className="mt-14">
+        <div className="mt-10">
           <ProcessRail />
         </div>
       </section>

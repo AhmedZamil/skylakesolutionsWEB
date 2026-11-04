@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 import { processSteps } from "@/lib/site";
 
 const tones = {
@@ -8,12 +8,14 @@ const tones = {
   cyan: "#00d8f0",
 } as const;
 
+const frames = processSteps.length + 1;
+
 function wavePath() {
-  const width = processSteps.length * 1000;
+  const width = frames * 1000;
   const mid = 230;
-  const amp = 70;
+  const amp = 78;
   let d = `M 0 ${mid}`;
-  const segments = processSteps.length * 2;
+  const segments = frames * 2;
   const seg = width / segments;
   for (let i = 0; i < segments; i += 1) {
     const x1 = seg * i + seg / 2;
@@ -21,19 +23,37 @@ function wavePath() {
     const y1 = mid + (i % 2 === 0 ? -amp : amp);
     d += ` Q ${x1} ${y1} ${x2} ${mid}`;
   }
-  return { d, width };
+  return { d, width, mid, amp, segments };
 }
 
-function StepCard({ step, peek }: { step: (typeof processSteps)[number]; peek?: boolean }) {
+function waveY(x: number, wave: ReturnType<typeof wavePath>) {
+  const seg = wave.width / wave.segments;
+  const i = Math.min(wave.segments - 1, Math.max(0, Math.floor(x / seg)));
+  const t = (x - i * seg) / seg;
+  const y0 = wave.mid;
+  const y1 = wave.mid + (i % 2 === 0 ? -wave.amp : wave.amp);
+  const y2 = wave.mid;
+  const rest = 1 - t;
+  return rest * rest * y0 + 2 * rest * t * y1 + t * t * y2;
+}
+
+const wave = wavePath();
+
+function starPath(cx: number, cy: number, radius: number) {
+  const inner = radius * 0.28;
+  return `M ${cx} ${cy - radius} L ${cx + inner} ${cy - inner} L ${cx + radius} ${cy} L ${cx + inner} ${cy + inner} L ${cx} ${cy + radius} L ${cx - inner} ${cy + inner} L ${cx - radius} ${cy} L ${cx - inner} ${cy - inner} Z`;
+}
+
+function StepCard({ step }: { step: (typeof processSteps)[number] }) {
   const color = tones[step.tone];
   return (
-    <article className="relative z-10 flex h-full flex-col justify-center px-6 py-10 sm:px-8 md:px-[6vw] md:py-16">
+    <article className="relative z-10 flex h-full flex-col justify-center px-6 py-6 sm:px-8 md:px-[5vw]">
       <span
         aria-hidden="true"
-        className="absolute top-8 left-6 hidden h-24 w-px md:left-[6vw] md:block"
+        className="absolute top-6 left-6 hidden h-16 w-px md:left-[5vw] md:block"
         style={{ background: `linear-gradient(to bottom, ${color}, transparent)`, boxShadow: `0 0 16px ${color}80` }}
       />
-      <div className="flex items-center justify-between gap-4 font-mono text-[10px] tracking-[0.22em] text-faint uppercase md:text-xs">
+      <div className="flex items-center justify-between gap-4 text-[10px] tracking-[0.22em] text-faint uppercase md:text-xs">
         <span className="flex items-center gap-3">
           <span className="h-1.5 w-1.5 rounded-full" style={{ background: color, boxShadow: `0 0 10px ${color}` }} />
           {step.week}
@@ -42,28 +62,24 @@ function StepCard({ step, peek }: { step: (typeof processSteps)[number]; peek?: 
           {step.n} / 0{processSteps.length}
         </span>
       </div>
-      <div className="mt-6 grid items-end gap-6 md:grid-cols-[auto_1fr] md:gap-10">
+      <div className="mt-4 grid items-end gap-4 md:grid-cols-[auto_1fr] md:gap-8">
         <div
           className="font-display leading-[0.8] tracking-[-0.03em]"
-          style={{
-            color,
-            fontSize: peek ? undefined : "clamp(7rem, 14vw, 16rem)",
-            textShadow: `0 0 60px ${color}40`,
-          }}
+          style={{ color, fontSize: "clamp(5.5rem, 11vw, 12rem)", textShadow: `0 0 48px ${color}55` }}
         >
-          <span className={peek ? "text-7xl md:text-[10rem]" : undefined}>{step.n}</span>
+          {step.n}
         </div>
-        <div className="md:pb-4">
-          <h2 className="font-display text-4xl leading-none tracking-tight sm:text-5xl md:text-[4.6vw]">{step.title}</h2>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-muted md:mt-6 md:text-lg">{step.text}</p>
+        <div className="md:pb-2">
+          <h2 className="font-display text-4xl leading-none tracking-tight sm:text-5xl">{step.title}</h2>
+          <p className="mt-3 max-w-xl text-base leading-relaxed text-muted md:text-lg">{step.text}</p>
         </div>
       </div>
-      <div className="mt-8 grid gap-8 border-t border-line pt-8 md:grid-cols-[1.5fr_1fr] md:gap-14">
+      <div className="mt-6 grid gap-6 border-t border-line pt-6 md:grid-cols-[1.5fr_1fr] md:gap-10">
         <div>
           <p className="text-[10px] tracking-[0.22em] text-faint uppercase">Deliverables</p>
-          <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+          <ul className="mt-3 grid gap-2 sm:grid-cols-2">
             {step.deliverables.map((item) => (
-              <li key={item} className="flex items-start gap-2 text-sm text-ink md:text-base">
+              <li key={item} className="flex items-start gap-2 text-sm text-ink">
                 <span className="mt-[0.6em] h-px w-4 shrink-0" style={{ background: color }} />
                 {item}
               </li>
@@ -72,14 +88,14 @@ function StepCard({ step, peek }: { step: (typeof processSteps)[number]; peek?: 
         </div>
         <div>
           <p className="text-[10px] tracking-[0.22em] text-faint uppercase">Tools</p>
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-3 flex flex-wrap gap-2">
             {step.tools.map((tool) => (
               <span key={tool} className="border border-line px-3 py-1 text-[10px] tracking-[0.18em] text-muted uppercase">
                 {tool}
               </span>
             ))}
           </div>
-          <p className="mt-8 hidden items-center gap-3 text-[10px] tracking-[0.22em] text-faint uppercase md:flex">
+          <p className="mt-6 hidden items-center gap-3 text-[10px] tracking-[0.22em] text-faint uppercase md:flex">
             <span className="h-px w-8 bg-line" />
             Next · {step.next}
             <span aria-hidden="true">→</span>
@@ -90,213 +106,248 @@ function StepCard({ step, peek }: { step: (typeof processSteps)[number]; peek?: 
   );
 }
 
+function Trophy({ lit = false, mark }: { lit?: boolean; mark: string }) {
+  const stars = [
+    [54, 48, 11],
+    [300, 36, 14],
+    [28, 150, 8],
+    [332, 168, 10],
+    [176, 18, 7],
+    [70, 330, 9],
+    [292, 348, 12],
+    [180, 390, 6],
+  ] as const;
+
+  return (
+    <div
+      data-success=""
+      className="flex h-full flex-col items-center justify-center px-6 text-center"
+      style={{ ["--light" as string]: lit ? 1 : 0 }}
+    >
+      <svg viewBox="0 0 360 430" className="h-[min(52vh,420px)] w-auto" aria-hidden="true">
+        <defs>
+          <linearGradient id={mark} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#1f6bff" />
+            <stop offset="1" stopColor="#00d8f0" />
+          </linearGradient>
+        </defs>
+        <g
+          fill="none"
+          stroke={`url(#${mark})`}
+          strokeWidth="3"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          style={{
+            filter: "drop-shadow(0 0 calc(var(--light, 0) * 16px) rgba(0, 216, 240, 0.85))",
+          }}
+        >
+          {[
+            "M118 78 H242 C252 78 258 90 258 108 V168 C258 230 222 258 180 258 C138 258 102 230 102 168 V108 C102 90 108 78 118 78 Z",
+            "M102 114 C58 112 50 176 102 178",
+            "M258 114 C302 112 310 176 258 178",
+            "M158 258 V304 H202 V258",
+            "M116 304 H244 L262 346 H98 Z",
+          ].map((d) => (
+            <path
+              key={d}
+              d={d}
+              pathLength={1}
+              style={{
+                strokeDasharray: 1,
+                strokeDashoffset: "calc(1 - var(--light, 0))",
+              }}
+            />
+          ))}
+        </g>
+        {stars.map(([cx, cy, radius]) => (
+          <path
+            key={`${cx}-${cy}`}
+            d={starPath(cx, cy, radius)}
+            fill="#00d8f0"
+            style={{
+              opacity: "var(--light, 0)",
+              transformBox: "fill-box",
+              transformOrigin: "center",
+              transform: "scale(var(--light, 0))",
+            }}
+          />
+        ))}
+      </svg>
+      <p
+        className="mt-2 text-[11px] tracking-[0.28em] text-muted uppercase"
+        style={{ opacity: "var(--light, 0)" }}
+      >
+        End of the path
+      </p>
+      <p className="font-display text-3xl text-cyan italic" style={{ opacity: "var(--light, 0)" }}>
+        Shipped.
+      </p>
+      <p
+        className="mt-3 text-sm tracking-[0.55em] text-cyan"
+        style={{ opacity: "var(--light, 0)", textShadow: "0 0 18px rgba(0, 216, 240, 0.8)" }}
+      >
+        SUCCESS
+      </p>
+    </div>
+  );
+}
+
 export function ProcessRail() {
-  const railRef = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const viewRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
-  const xRef = useRef(0);
+  const dotRef = useRef<HTMLDivElement>(null);
   const stepRef = useRef(0);
-  const dragRef = useRef<{ pointer: number; startX: number; startOffset: number } | null>(null);
   const [step, setStep] = useState(0);
-  const wave = wavePath();
 
   useEffect(() => {
-    const rail = railRef.current;
+    const scene = sceneRef.current;
+    const view = viewRef.current;
     const track = trackRef.current;
-    if (!rail || !track) return;
+    if (!scene || !view || !track) return;
 
-    const panel = () => rail.clientWidth * 0.8;
-    const max = () => panel() * (processSteps.length - 1);
+    let frame = 0;
 
-    const paint = (x: number, animate: boolean) => {
-      const nextX = Math.min(max(), Math.max(0, x));
-      xRef.current = nextX;
-      track.style.transition = animate ? "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)" : "none";
-      track.style.transform = `translate3d(${-nextX}px, 0, 0)`;
-      if (barRef.current) {
-        const span = max();
-        barRef.current.style.width = `${span === 0 ? 0 : (nextX / span) * 100}%`;
+    const paint = () => {
+      frame = 0;
+      if (getComputedStyle(scene).display === "none") return;
+      const total = Math.max(1, scene.offsetHeight - window.innerHeight);
+      const scrolled = Math.min(total, Math.max(0, -scene.getBoundingClientRect().top));
+      const progress = scrolled / total;
+      const panel = view.clientWidth * 0.8;
+      const maxX = panel * (frames - 1);
+      track.style.transform = `translate3d(${-progress * maxX}px, 0, 0)`;
+      if (barRef.current) barRef.current.style.transform = `scaleX(${progress})`;
+
+      const index = Math.min(frames - 1, Math.max(0, Math.round(progress * (frames - 1))));
+      if (index !== stepRef.current) {
+        stepRef.current = index;
+        setStep(index);
       }
-      const index = Math.min(processSteps.length - 1, Math.max(0, Math.round(nextX / Math.max(panel(), 1))));
-      stepRef.current = index;
-      setStep((current) => (current === index ? current : index));
+
+      const lightStart = (frames - 2) / (frames - 1);
+      const light = Math.min(1, Math.max(0, (progress - lightStart) / (1 - lightStart)));
+      const finale = track.querySelector<HTMLElement>("[data-success]");
+      if (finale) finale.style.setProperty("--light", light.toFixed(4));
+
+      if (dotRef.current && track.offsetWidth > 0) {
+        const screenX = view.clientWidth * 0.3;
+        const trackX = Math.min(track.offsetWidth - 1, progress * maxX + screenX);
+        const y = (waveY((trackX / track.offsetWidth) * wave.width, wave) / 460) * view.clientHeight;
+        dotRef.current.style.transform = `translate3d(${screenX}px, ${y}px, 0) translate(-50%, -50%)`;
+        dotRef.current.style.opacity = progress > 0.01 ? "1" : "0";
+      }
     };
 
-    const onWheel = (event: WheelEvent) => {
-      const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
-      if (delta === 0) return;
-      if (xRef.current <= 0 && delta < 0) return;
-      if (xRef.current >= max() - 1 && delta > 0) return;
-      event.preventDefault();
-      paint(xRef.current + delta, false);
+    const requestPaint = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(paint);
     };
 
-    const onResize = () => paint(stepRef.current * panel(), false);
-    paint(0, false);
-    rail.addEventListener("wheel", onWheel, { passive: false });
-    window.addEventListener("resize", onResize);
+    paint();
+    const observer = new ResizeObserver(requestPaint);
+    observer.observe(view);
+    window.addEventListener("scroll", requestPaint, { passive: true });
+    window.addEventListener("resize", requestPaint);
     return () => {
-      rail.removeEventListener("wheel", onWheel);
-      window.removeEventListener("resize", onResize);
+      window.cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener("scroll", requestPaint);
+      window.removeEventListener("resize", requestPaint);
     };
   }, []);
 
-  const go = (index: number) => {
-    const rail = railRef.current;
-    const track = trackRef.current;
-    if (!rail || !track) return;
-    const panel = rail.clientWidth * 0.8;
-    const clamped = Math.min(processSteps.length - 1, Math.max(0, index));
-    const x = clamped * panel;
-    xRef.current = x;
-    track.style.transition = "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)";
-    track.style.transform = `translate3d(${-x}px, 0, 0)`;
-    if (barRef.current) barRef.current.style.width = `${(clamped / (processSteps.length - 1)) * 100}%`;
-    stepRef.current = clamped;
-    setStep(clamped);
-  };
-
-  const onPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (event.pointerType === "mouse" && event.button !== 0) return;
-    const target = event.target as HTMLElement;
-    if (target.closest("button, a")) return;
-    dragRef.current = { pointer: event.pointerId, startX: event.clientX, startOffset: xRef.current };
-    event.currentTarget.setPointerCapture(event.pointerId);
-    if (trackRef.current) trackRef.current.style.transition = "none";
-  };
-
-  const onPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
-    const drag = dragRef.current;
-    const rail = railRef.current;
-    const track = trackRef.current;
-    if (!drag || drag.pointer !== event.pointerId || !rail || !track) return;
-    const panel = rail.clientWidth * 0.8;
-    const max = panel * (processSteps.length - 1);
-    const x = Math.min(max, Math.max(0, drag.startOffset - (event.clientX - drag.startX)));
-    xRef.current = x;
-    track.style.transform = `translate3d(${-x}px, 0, 0)`;
-    if (barRef.current) barRef.current.style.width = `${(x / max) * 100}%`;
-    const index = Math.min(processSteps.length - 1, Math.max(0, Math.round(x / panel)));
-    stepRef.current = index;
-    setStep((current) => (current === index ? current : index));
-  };
-
-  const onPointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (!dragRef.current || dragRef.current.pointer !== event.pointerId) return;
-    dragRef.current = null;
-    const rail = railRef.current;
-    if (!rail) return;
-    const panel = rail.clientWidth * 0.8;
-    go(Math.round(xRef.current / panel));
-  };
+  const onSuccess = step >= processSteps.length;
 
   return (
     <div>
-      <div className="process-stack space-y-12 md:hidden">
+      <div className="process-stack space-y-16 md:hidden">
         {processSteps.map((item) => (
-          <StepCard key={item.n} step={item} peek />
+          <StepCard key={item.n} step={item} />
         ))}
+        <Trophy lit mark="trophy-stroke-stack" />
       </div>
 
-      <div className="process-rail hidden md:block">
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-          <p className="flex items-center gap-3 text-xs tracking-[0.2em] text-muted uppercase">
-            <span className="h-1.5 w-1.5 rounded-full bg-cyan" />
-            Process
-          </p>
-          <div className="flex items-center gap-4 text-[10px] tracking-[0.22em] text-faint uppercase">
-            <span>Drag · scroll →</span>
-            <span className="text-line" aria-hidden="true">
-              |
-            </span>
-            <span>
-              Step <span className="text-cyan">{processSteps[step].n}</span> / 0{processSteps.length}
-            </span>
-            <button
-              type="button"
-              className="border border-line px-2 py-1 hover:border-cyan hover:text-cyan"
-              onClick={() => go(step - 1)}
-              aria-label="Previous step"
-            >
-              ←
-            </button>
-            <button
-              type="button"
-              className="border border-line px-2 py-1 hover:border-cyan hover:text-cyan"
-              onClick={() => go(step + 1)}
-              aria-label="Next step"
-            >
-              →
-            </button>
-          </div>
-        </div>
-
-        <div className="relative mb-8 h-[2px] bg-line" aria-hidden="true">
-          <div
-            ref={barRef}
-            className="h-full w-0 bg-gradient-to-r from-blue via-cyan to-blue"
-            style={{ boxShadow: "0 0 12px rgba(31, 107, 255, 0.45)" }}
-          />
-          {processSteps.map((item, index) => (
-            <span
-              key={item.n}
-              className="absolute top-1/2 h-2 w-px -translate-y-1/2 bg-line-strong"
-              style={{ left: `${(index / (processSteps.length - 1)) * 100}%` }}
-            >
-              <span className="absolute -top-5 left-1/2 -translate-x-1/2 text-[9px] tracking-[0.2em] text-faint">
-                {item.n}
+      <div ref={sceneRef} className="process-rail relative hidden md:block" style={{ height: "520vh" }}>
+        <div className="sticky top-0 flex h-dvh flex-col overflow-hidden px-6 pt-20 pb-8 sm:px-8">
+          <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
+            <p className="flex items-center gap-3 text-xs tracking-[0.2em] text-muted uppercase">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan" />
+              Process
+            </p>
+            <p className="text-[10px] tracking-[0.22em] text-faint uppercase" aria-live="polite">
+              Scroll
+              <span className="mx-3 text-line" aria-hidden="true">
+                |
               </span>
-            </span>
-          ))}
-        </div>
+              {onSuccess ? (
+                <span className="text-cyan">Success</span>
+              ) : (
+                <>
+                  Step <span className="text-cyan">{processSteps[step].n}</span> / 0{processSteps.length}
+                </>
+              )}
+            </p>
+          </div>
 
-        <div
-          ref={railRef}
-          tabIndex={0}
-          role="region"
-          aria-roledescription="carousel"
-          aria-label="How a Sky Lake engagement runs"
-          onKeyDown={(event) => {
-            if (event.key === "ArrowRight") {
-              event.preventDefault();
-              go(step + 1);
-            }
-            if (event.key === "ArrowLeft") {
-              event.preventDefault();
-              go(step - 1);
-            }
-          }}
-          onPointerDown={onPointerDown}
-          onPointerMove={onPointerMove}
-          onPointerUp={onPointerUp}
-          onPointerCancel={onPointerUp}
-          className="relative cursor-grab touch-pan-y overflow-hidden outline-none focus-visible:outline focus-visible:outline-cyan active:cursor-grabbing"
-        >
-          <div
-            ref={trackRef}
-            className="relative flex will-change-transform"
-            style={{ width: `${processSteps.length * 80}%` }}
-          >
-            <svg
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 h-full w-full"
-              viewBox={`0 0 ${wave.width} 460`}
-              preserveAspectRatio="none"
-            >
-              <defs>
-                <linearGradient id="process-wave" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0" stopColor="#1f6bff" />
-                  <stop offset="0.55" stopColor="#00d8f0" />
-                  <stop offset="1" stopColor="#1f6bff" />
-                </linearGradient>
-              </defs>
-              <path d={wave.d} fill="none" stroke="url(#process-wave)" strokeWidth="3" />
-            </svg>
-            {processSteps.map((item) => (
-              <div key={item.n} className="h-full shrink-0" style={{ width: `${100 / processSteps.length}%` }}>
-                <StepCard step={item} />
-              </div>
+          <div className="relative mb-10 h-[2px] bg-line" aria-hidden="true">
+            <div
+              ref={barRef}
+              className="h-full w-full origin-left scale-x-0 bg-gradient-to-r from-blue via-cyan to-blue"
+              style={{ boxShadow: "0 0 12px rgba(0, 216, 240, 0.55)" }}
+            />
+            {processSteps.map((item, index) => (
+              <span
+                key={item.n}
+                className="absolute top-1/2 h-2 w-px -translate-y-1/2 bg-line-strong"
+                style={{ left: `${(index / (frames - 1)) * 100}%` }}
+              >
+                <span className="absolute top-3 left-1/2 -translate-x-1/2 text-[9px] tracking-[0.2em] text-faint">
+                  {item.n}
+                </span>
+              </span>
             ))}
+            <span className="absolute top-1/2 right-0 h-2 w-px -translate-y-1/2 bg-line-strong">
+              <span className="absolute top-3 right-0 text-[9px] tracking-[0.2em] text-faint">End</span>
+            </span>
+          </div>
+
+          <div ref={viewRef} className="relative min-h-0 flex-1 overflow-hidden">
+            <div
+              ref={trackRef}
+              className="flex h-full will-change-transform"
+              style={{ width: `${frames * 80}%` }}
+            >
+              <svg
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 h-full w-full"
+                viewBox={`0 0 ${wave.width} 460`}
+                preserveAspectRatio="none"
+              >
+                <defs>
+                  <linearGradient id="process-wave" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0" stopColor="#1f6bff" />
+                    <stop offset="0.5" stopColor="#00d8f0" />
+                    <stop offset="1" stopColor="#1f6bff" />
+                  </linearGradient>
+                </defs>
+                <path d={wave.d} fill="none" stroke="url(#process-wave)" strokeWidth="3" />
+              </svg>
+              {processSteps.map((item) => (
+                <div key={item.n} className="h-full shrink-0" style={{ width: `${100 / frames}%` }}>
+                  <StepCard step={item} />
+                </div>
+              ))}
+              <div className="h-full shrink-0" style={{ width: `${100 / frames}%` }}>
+                <Trophy mark="trophy-stroke-rail" />
+              </div>
+            </div>
+            <div
+              ref={dotRef}
+              aria-hidden="true"
+              className="pointer-events-none absolute top-0 left-0 z-20 h-3.5 w-3.5 rounded-full bg-cyan opacity-0 shadow-[0_0_18px_#00d8f0]"
+            />
           </div>
         </div>
       </div>
