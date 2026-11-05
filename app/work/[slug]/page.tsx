@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { SchoolCharts } from "@/components/school-charts";
 import { StudyFrame } from "@/components/study-frame";
 import { studies, studyBySlug } from "@/lib/work";
 
@@ -77,14 +78,14 @@ export default async function StudyPage({ params }: { params: Promise<{ slug: st
             {study.heroImage ? (
               <Image
                 src={study.heroImage}
-                alt={`${study.name} flight results`}
+                alt={study.name}
                 width={1887}
                 height={856}
                 className="h-auto w-full"
                 priority
               />
             ) : (
-              <StudyFrame src={study.cardImage} alt={study.name} />
+              <StudyFrame src={study.cardImage} alt={study.name} pending={study.frameLabel} />
             )}
           </div>
           {study.gallery?.length ? (
@@ -103,6 +104,7 @@ export default async function StudyPage({ params }: { params: Promise<{ slug: st
         <div className="mx-auto max-w-4xl">
           <Section label="Problem" text={study.problem} />
           <Section label="Approach" text={study.approach} />
+          {study.slug === "premier-school-erp" ? <SchoolCharts /> : null}
           <section className="border-b border-line py-12">
             <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">Stack</p>
             <ul className="mt-5 flex flex-wrap gap-2">

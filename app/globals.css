@@ -127,6 +127,21 @@ body {
   animation: arch-travel 4.8s linear infinite;
 }
 
+.year-glow {
+  text-shadow: 0 0 18px rgba(0, 216, 240, 0.45);
+  animation: year-glow 2.8s ease-in-out infinite;
+}
+
+@keyframes year-glow {
+  0%,
+  100% {
+    text-shadow: 0 0 12px rgba(0, 216, 240, 0.35);
+  }
+  50% {
+    text-shadow: 0 0 32px rgba(0, 216, 240, 0.8);
+  }
+}
+
 @keyframes arch-dash {
   to {
     background-position: 22px 0;
@@ -274,6 +289,7 @@ html[data-intro="skip"] .intro-cover {
   .approach-glow,
   .arch-line,
   .arch-pulse,
+  .year-glow,
   .motion-grain,
   .intro-letter,
   .intro-line,
