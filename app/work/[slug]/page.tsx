@@ -78,24 +78,43 @@ export default async function StudyPage({ params }: { params: Promise<{ slug: st
             {study.heroImage ? (
               <Image
                 src={study.heroImage}
-                alt={study.name}
-                width={1887}
-                height={856}
+                alt={study.heroAlt ?? study.name}
+                width={study.heroSize?.width ?? 1887}
+                height={study.heroSize?.height ?? 856}
                 className="h-auto w-full"
                 priority
               />
             ) : (
-              <StudyFrame src={study.cardImage} alt={study.name} pending={study.frameLabel} />
+              <StudyFrame src={study.cardImage} alt={study.name} pending={study.frameLabel} fit={study.frameFit} />
             )}
           </div>
           {study.gallery?.length ? (
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
-              {study.gallery.map((shot) => (
-                <div key={shot.src} className="overflow-hidden rounded-2xl border border-line">
-                  <StudyFrame src={shot.src} alt={shot.alt} />
-                </div>
-              ))}
-            </div>
+            study.galleryLayout === "stack" ? (
+              <div className="mt-6 grid gap-6">
+                {study.gallery.map((shot) => (
+                  <figure key={shot.src}>
+                    <div className="overflow-hidden rounded-2xl border border-line bg-white">
+                      <Image
+                        src={shot.src}
+                        alt={shot.alt}
+                        width={shot.width ?? 1900}
+                        height={shot.height ?? 860}
+                        className="h-auto w-full"
+                      />
+                    </div>
+                    {shot.caption ? <figcaption className="px-1 pt-3 text-sm leading-relaxed text-muted">{shot.caption}</figcaption> : null}
+                  </figure>
+                ))}
+              </div>
+            ) : (
+              <div className="mt-6 grid gap-4 md:grid-cols-3">
+                {study.gallery.map((shot) => (
+                  <div key={shot.src} className="overflow-hidden rounded-2xl border border-line">
+                    <StudyFrame src={shot.src} alt={shot.alt} />
+                  </div>
+                ))}
+              </div>
+            )
           ) : null}
         </div>
       </section>
