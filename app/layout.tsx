@@ -5,6 +5,7 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { IntroName } from "@/components/intro-name";
 import { MotionBackground } from "@/components/motion-background";
+import { SiteCursor } from "@/components/site-cursor";
 import { Providers } from "@/components/providers";
 import { site } from "@/lib/site";
 import "./globals.css";
@@ -59,6 +60,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </Script>
         <Providers>
           <MotionBackground />
+          <SiteCursor />
           <IntroName />
           <div id="top" className="relative z-10 min-h-screen border-line lg:mx-16 lg:border-x xl:mx-20">
             <Header />
