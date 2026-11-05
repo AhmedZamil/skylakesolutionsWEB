@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useReducedMotion } from "framer-motion";
 import { site } from "@/lib/site";
 
 const TIMES = ["09:30", "11:00", "14:00", "16:30"];
@@ -36,13 +37,15 @@ function monthLabel(days: Date[]) {
   return first === last ? `${first} · ${year}` : `${first} — ${last} · ${year}`;
 }
 
-export function BookPanel() {
+export function BookPanel({ live = false }: { live?: boolean }) {
+  const reduce = useReducedMotion();
   const [today, setToday] = useState<Date | null>(null);
   const [weekStart, setWeekStart] = useState<Date | null>(null);
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
   const [time, setTime] = useState("11:00");
   const [zone, setZone] = useState("Local time");
   const [sent, setSent] = useState(false);
+  const [held, setHeld] = useState(false);
 
   useEffect(() => {
     const now = midnight(new Date());
@@ -55,6 +58,32 @@ export function BookPanel() {
   }, []);
 
   const days = useMemo(() => (weekStart ? Array.from({ length: 5 }, (_, index) => addDays(weekStart, index)) : []), [weekStart]);
+
+  useEffect(() => {
+    if (!live || held || reduce || !today || days.length === 0) return;
+    const open = days.filter((day) => day >= today);
+    if (open.length === 0) return;
+    let mode: "day" | "time" = "day";
+    let index = -1;
+    const timer = window.setInterval(() => {
+      if (mode === "day") {
+        index = (index + 1) % open.length;
+        setSelectedDay(open[index]);
+        if (index === open.length - 1) {
+          mode = "time";
+          index = -1;
+        }
+        return;
+      }
+      index = (index + 1) % TIMES.length;
+      setTime(TIMES[index]);
+      if (index === TIMES.length - 1) {
+        mode = "day";
+        index = -1;
+      }
+    }, 700);
+    return () => window.clearInterval(timer);
+  }, [live, held, reduce, today, days]);
   const currentMonday = today ? mondayOf(today) : null;
   const canGoBack = Boolean(weekStart && currentMonday && weekStart.getTime() > currentMonday.getTime());
 
@@ -96,7 +125,15 @@ export function BookPanel() {
     : "Choose a day";
 
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      onMouseEnter={() => {
+        if (live) setHeld(true);
+      }}
+      onMouseLeave={() => {
+        if (live) setHeld(false);
+      }}
+    >
       <div aria-hidden="true" className="pointer-events-none absolute -top-8 left-8 h-24 w-64 rounded-full bg-cyan/10 blur-3xl" />
       <div className="relative overflow-hidden rounded-2xl border border-line bg-[#0b111a]/80 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)] backdrop-blur-xl">
         <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan/50 to-transparent" />

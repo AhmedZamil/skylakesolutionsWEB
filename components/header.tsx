@@ -3,7 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { BookPanel } from "@/components/book-panel";
 import { industries, nav } from "@/lib/site";
 
 export function Header() {
@@ -59,10 +60,18 @@ export function Header() {
                     href="/solutions"
                     aria-current={active ? "page" : undefined}
                     aria-expanded={solutionsOpen}
-                    className={active ? "text-cyan" : "transition-colors hover:text-cyan"}
+                    className={`inline-flex items-center gap-1 ${active ? "text-cyan" : "transition-colors hover:text-cyan"}`}
                     onFocus={() => setSolutionsOpen(true)}
                   >
                     {item.label}
+                    <svg
+                      viewBox="0 0 12 12"
+                      className={`h-3 w-3 transition-transform duration-300 ${solutionsOpen ? "rotate-180" : ""}`}
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
                   </Link>
                   {solutionsOpen ? <SolutionsPanel /> : null}
                 </div>
@@ -127,7 +136,7 @@ export function Header() {
               <div key={item.href}>
                 <Link
                   href={item.href}
-                  className={`block border-b border-line py-4 text-lg font-medium ${
+                  className={`flex items-center gap-2 border-b border-line py-4 text-lg font-medium ${
                     (item.href === "/work" && pathname.startsWith("/work")) ||
                     (item.href === "/solutions" && pathname.startsWith("/solutions"))
                       ? "text-cyan"
@@ -135,6 +144,11 @@ export function Header() {
                   }`}
                 >
                   {item.label}
+                  {item.href === "/solutions" ? (
+                    <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" aria-hidden="true">
+                      <path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  ) : null}
                 </Link>
                 {item.href === "/solutions" ? (
                   <div className="border-b border-line py-2">
@@ -164,9 +178,28 @@ export function Header() {
 }
 
 function SolutionsPanel() {
+  const panel = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const node = panel.current;
+    if (!node) return;
+    const fit = () => {
+      node.style.transform = "translateX(-50%)";
+      const rect = node.getBoundingClientRect();
+      const margin = 24;
+      let delta = 0;
+      if (rect.left < margin) delta = margin - rect.left;
+      else if (rect.right > window.innerWidth - margin) delta = window.innerWidth - margin - rect.right;
+      node.style.transform = `translateX(calc(-50% + ${delta}px))`;
+    };
+    fit();
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
+  }, []);
+
   return (
-    <div className="absolute top-full left-1/2 z-50 w-[680px] -translate-x-1/2 pt-3">
-      <div className="grid grid-cols-[1.3fr_0.9fr] gap-3 border border-line bg-card p-3 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
+    <div ref={panel} className="absolute top-full left-1/2 z-50 w-[min(920px,calc(100vw-3rem))] -translate-x-1/2 pt-3">
+      <div className="grid grid-cols-[200px_1fr] gap-3 border border-line bg-card p-3 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
         <div className="p-3">
           <p className="text-[11px] tracking-[0.18em] text-faint uppercase">By industry</p>
           <ul className="mt-3">
@@ -179,12 +212,7 @@ function SolutionsPanel() {
             ))}
           </ul>
         </div>
-        <Link href="/book" className="flex flex-col justify-between bg-blue p-6 text-white">
-          <p className="text-[11px] tracking-[0.18em] uppercase">Not sure where to start?</p>
-          <p className="mt-8 font-display text-3xl italic">Book a call.</p>
-          <p className="mt-3 text-sm text-white/80">Pick a time. We confirm by email within one business day.</p>
-          <span className="mt-8 text-sm font-semibold">Open the calendar →</span>
-        </Link>
+        <BookPanel live />
       </div>
     </div>
   );

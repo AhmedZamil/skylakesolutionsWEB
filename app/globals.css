@@ -229,6 +229,13 @@ html[data-intro="skip"] .intro-cover {
   display: none;
 }
 
+@media (min-width: 768px) {
+  html.custom-cursor,
+  html.custom-cursor * {
+    cursor: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
