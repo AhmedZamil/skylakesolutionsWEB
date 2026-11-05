@@ -19,7 +19,7 @@ export default function WorkPage() {
             <span className="mt-2 block font-display font-normal text-cyan italic">Sky Lake Solutions.</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-            Each study is a product Sky Lake designed, built, and shipped. These six entries hold that shape. The names are placeholders until the real stories, and their screenshots, are ready to replace them.
+            Each study is a product Sky Lake designed, built, and shipped. Aerotake is live. The other entries hold the same shape until their real stories, and their screenshots, are ready.
           </p>
         </div>
       </section>
@@ -33,7 +33,7 @@ export default function WorkPage() {
               className="group overflow-hidden rounded-2xl border border-line bg-card transition-colors duration-300 hover:border-cyan"
             >
               <div className="relative">
-                <StudyFrame />
+                <StudyFrame src={study.cardImage} alt={study.name} />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-blue/25 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
               </div>
               <div className="p-6 md:p-7">
@@ -46,7 +46,7 @@ export default function WorkPage() {
                 <p className="mt-2 text-sm font-medium text-cyan">{study.subtitle}</p>
                 <p className="mt-4 line-clamp-4 text-[15px] leading-relaxed text-muted">{study.summary}</p>
                 <ul className="mt-5 flex flex-wrap gap-2">
-                  {study.stack.map((tool) => (
+                  {(study.tags ?? study.stack).map((tool) => (
                     <li key={tool} className="rounded-full bg-white/5 px-2.5 py-1 text-[11px] text-muted">
                       {tool}
                     </li>

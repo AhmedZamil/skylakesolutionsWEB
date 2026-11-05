@@ -1,4 +1,22 @@
-export function StudyFrame({ pending = "Screenshot pending" }: { pending?: string }) {
+import Image from "next/image";
+
+export function StudyFrame({
+  src,
+  alt = "",
+  pending = "Screenshot pending",
+}: {
+  src?: string;
+  alt?: string;
+  pending?: string;
+}) {
+  if (src) {
+    return (
+      <div className="relative aspect-[16/10] overflow-hidden bg-[#071422]">
+        <Image src={src} alt={alt} fill className="object-cover object-top" sizes="(min-width: 768px) 640px, 100vw" />
+      </div>
+    );
+  }
+
   return (
     <div className="relative aspect-[16/10] overflow-hidden bg-[#071422]">
       <div
