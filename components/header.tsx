@@ -4,24 +4,29 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { nav } from "@/lib/site";
+import { industries, nav } from "@/lib/site";
 
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [solutionsOpen, setSolutionsOpen] = useState(false);
 
   useEffect(() => {
     setOpen(false);
+    setSolutionsOpen(false);
   }, [pathname]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open && !solutionsOpen) return;
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        setOpen(false);
+        setSolutionsOpen(false);
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [open, solutionsOpen]);
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-bg/85 backdrop-blur-md">
@@ -36,7 +41,33 @@ export function Header() {
 
         <nav aria-label="Main" className="hidden items-center gap-5 text-sm font-medium text-ink/90 lg:flex xl:gap-7 xl:text-[15px]">
           {nav.map((item) => {
-            const active = item.href === "/work" ? pathname.startsWith("/work") : pathname === item.href;
+            const active =
+              item.href === "/work"
+                ? pathname.startsWith("/work")
+                : item.href === "/solutions"
+                  ? pathname.startsWith("/solutions")
+                  : pathname === item.href;
+            if (item.href === "/solutions") {
+              return (
+                <div
+                  key={item.href}
+                  className="relative"
+                  onMouseEnter={() => setSolutionsOpen(true)}
+                  onMouseLeave={() => setSolutionsOpen(false)}
+                >
+                  <Link
+                    href="/solutions"
+                    aria-current={active ? "page" : undefined}
+                    aria-expanded={solutionsOpen}
+                    className={active ? "text-cyan" : "transition-colors hover:text-cyan"}
+                    onFocus={() => setSolutionsOpen(true)}
+                  >
+                    {item.label}
+                  </Link>
+                  {solutionsOpen ? <SolutionsPanel /> : null}
+                </div>
+              );
+            }
             return (
               <Link
                 key={item.href}
@@ -93,13 +124,28 @@ export function Header() {
         <div id="mobile-menu" className="border-t border-line bg-bg px-5 py-4 lg:hidden">
           <nav aria-label="Mobile" className="flex flex-col">
             {nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`border-b border-line py-4 text-lg font-medium ${item.href === "/work" && pathname.startsWith("/work") ? "text-cyan" : ""}`}
-              >
-                {item.label}
-              </Link>
+              <div key={item.href}>
+                <Link
+                  href={item.href}
+                  className={`block border-b border-line py-4 text-lg font-medium ${
+                    (item.href === "/work" && pathname.startsWith("/work")) ||
+                    (item.href === "/solutions" && pathname.startsWith("/solutions"))
+                      ? "text-cyan"
+                      : ""
+                  }`}
+                >
+                  {item.label}
+                </Link>
+                {item.href === "/solutions" ? (
+                  <div className="border-b border-line py-2">
+                    {industries.map((industry) => (
+                      <Link key={industry.slug} href={`/solutions/${industry.slug}`} className="block py-2 pl-3 text-sm text-muted">
+                        {industry.name}
+                      </Link>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
             ))}
           </nav>
           <Link href="/book" className="mt-5 flex h-12 items-center justify-center gap-2 border border-line-strong text-base font-semibold">
@@ -114,5 +160,32 @@ export function Header() {
         </div>
       ) : null}
     </header>
+  );
+}
+
+function SolutionsPanel() {
+  return (
+    <div className="absolute top-full left-1/2 z-50 w-[680px] -translate-x-1/2 pt-3">
+      <div className="grid grid-cols-[1.3fr_0.9fr] gap-3 border border-line bg-card p-3 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
+        <div className="p-3">
+          <p className="text-[11px] tracking-[0.18em] text-faint uppercase">By industry</p>
+          <ul className="mt-3">
+            {industries.map((industry) => (
+              <li key={industry.slug}>
+                <Link href={`/solutions/${industry.slug}`} className="block py-2 text-sm text-ink hover:text-cyan">
+                  {industry.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <Link href="/book" className="flex flex-col justify-between bg-blue p-6 text-white">
+          <p className="text-[11px] tracking-[0.18em] uppercase">Not sure where to start?</p>
+          <p className="mt-8 font-display text-3xl italic">Book a call.</p>
+          <p className="mt-3 text-sm text-white/80">Pick a time. We confirm by email within one business day.</p>
+          <span className="mt-8 text-sm font-semibold">Open the calendar →</span>
+        </Link>
+      </div>
+    </div>
   );
 }

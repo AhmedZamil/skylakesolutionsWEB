@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
-import { site } from "@/lib/site";
+import { industries, site } from "@/lib/site";
 import { studies } from "@/lib/work";
 
-const paths = ["", "/services", "/work", "/process", "/book", "/about", "/contact", "/faq", "/careers", "/privacy", "/terms"];
+const paths = ["", "/services", "/solutions", "/work", "/process", "/book", "/about", "/contact", "/faq", "/careers", "/privacy", "/terms"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const dated = new Date("2026-11-05");
@@ -13,6 +13,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...studies.map((study) => ({
       url: `${site.domain}/work/${study.slug}`,
+      lastModified: dated,
+    })),
+    ...industries.map((industry) => ({
+      url: `${site.domain}/solutions/${industry.slug}`,
       lastModified: dated,
     })),
   ];

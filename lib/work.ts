@@ -12,6 +12,7 @@ export type Study = {
   timeline: string;
   statusLine: string;
   url?: string;
+  industry?: string;
   problem: string;
   approach: string;
   tags?: string[];
@@ -37,6 +38,7 @@ export const studies: Study[] = [
     timeline: "2026 · live",
     statusLine: "Live · aerotake.net",
     url: "https://aerotake.net/",
+    industry: "ota",
     cardImage: "/work/aerotake-home.png",
     heroImage: "/work/aerotake-results.png",
     gallery: [
@@ -246,4 +248,8 @@ export const studies: Study[] = [
 
 export function studyBySlug(slug: string) {
   return studies.find((study) => study.slug === slug);
+}
+
+export function studiesIn(industry: string) {
+  return studies.filter((study) => study.industry === industry);
 }
