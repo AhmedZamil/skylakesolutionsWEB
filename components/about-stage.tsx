@@ -165,6 +165,37 @@ export function ExperienceTimeline({
   );
 }
 
+export function YearFigure({ years }: { years: number }) {
+  const reduce = useReducedMotion();
+  const ref = useRef<HTMLParagraphElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.6 });
+  const [value, setValue] = useState(reduce ? years : 0);
+
+  useEffect(() => {
+    if (reduce) {
+      setValue(years);
+      return;
+    }
+    if (!inView) return;
+    const start = performance.now();
+    let frame = 0;
+    const tick = (now: number) => {
+      const next = Math.min(1, (now - start) / 900);
+      setValue(Math.round(years * next));
+      if (next < 1) frame = window.requestAnimationFrame(tick);
+    };
+    frame = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(frame);
+  }, [inView, reduce, years]);
+
+  return (
+    <p ref={ref} className="mt-4 flex items-end gap-3">
+      <span className="year-glow font-display text-7xl leading-none text-cyan italic sm:text-8xl">{value}</span>
+      <span className="mb-2 text-sm tracking-[0.2em] text-cyan uppercase">years</span>
+    </p>
+  );
+}
+
 export function DhakaClock() {
   const [time, setTime] = useState("--:--");
 

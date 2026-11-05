@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ArchitectureGraph, BuildWindow, DhakaClock, ExperienceTimeline, StatRow } from "@/components/about-stage";
+import { ArchitectureGraph, BuildWindow, DhakaClock, ExperienceTimeline, StatRow, YearFigure } from "@/components/about-stage";
 import { CtaBand } from "@/components/cta-band";
 import { Reveal } from "@/components/reveal";
 import { capabilities, founders, values } from "@/lib/about";
@@ -85,7 +85,7 @@ export default function AboutPage() {
           <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">The people behind the code</p>
           <h2 className="mt-4 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">Meet the team</h2>
           <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted">
-            Three co-founders. A small senior team. Scroll each screen, or open the live profile.
+            Three co-founders. A small senior team. Open a live profile to read the full record.
           </p>
         </Reveal>
         <div className="mt-10 space-y-8">
@@ -102,7 +102,7 @@ export default function AboutPage() {
                 <span className="ml-auto text-[11px] tracking-[0.14em] text-cyan/80 uppercase">Profile</span>
               </div>
               <div className="grid lg:grid-cols-[minmax(240px,320px)_1fr]">
-                <div className="flex min-h-80 items-center justify-center bg-black lg:min-h-[32rem]">
+                <div className="flex items-center justify-center bg-black py-10 lg:py-16">
                   <div className="relative h-56 w-56 overflow-hidden rounded-full border border-cyan/30 shadow-[0_0_40px_rgba(0,216,240,0.18)] sm:h-64 sm:w-64">
                     <Image
                       src={founder.photo}
@@ -113,11 +113,10 @@ export default function AboutPage() {
                     />
                   </div>
                 </div>
-                <div className="h-80 overflow-y-auto bg-black px-6 py-6 sm:px-8 lg:h-[32rem]">
-                  <p className="text-[11px] tracking-[0.18em] text-cyan uppercase">
-                    {founder.role} · {founder.years}
-                  </p>
-                  <h3 className="mt-2 font-display text-4xl text-ink italic sm:text-5xl">{founder.name}</h3>
+                <div className="bg-black px-6 py-6 sm:px-8 sm:py-8">
+                  <p className="text-[11px] tracking-[0.18em] text-cyan uppercase">{founder.role}</p>
+                  <YearFigure years={founder.yearsCount} />
+                  <h3 className="mt-4 font-display text-4xl text-ink italic sm:text-5xl">{founder.name}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-ink">{founder.title}</p>
                   <p className="mt-2 text-sm text-muted">{founder.place}</p>
                   {founder.stats.length > 0 ? <StatRow stats={founder.stats} /> : null}

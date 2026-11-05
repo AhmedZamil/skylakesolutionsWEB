@@ -12,7 +12,8 @@ export type Study = {
   timeline: string;
   statusLine: string;
   url?: string;
-  industry?: string;
+  industries?: string[];
+  frameLabel?: string;
   problem: string;
   approach: string;
   tags?: string[];
@@ -38,7 +39,7 @@ export const studies: Study[] = [
     timeline: "2026 · live",
     statusLine: "Live · aerotake.net",
     url: "https://aerotake.net/",
-    industry: "ota",
+    industries: ["ota"],
     cardImage: "/work/aerotake-home.png",
     heroImage: "/work/aerotake-results.png",
     gallery: [
@@ -80,6 +81,60 @@ export const studies: Study[] = [
     ],
     outcome:
       "Aerotake is open at aerotake.net. Travellers can search and compare fares there today. The Stripe payment path is built, and online card checkout waits until the refund policy is published.",
+  },
+  {
+    slug: "premier-school-erp",
+    name: "Premier School ERP",
+    subtitle: "One register for a school franchise",
+    summary:
+      "Premier School ERP is the system a school franchise uses for the day: students, teachers, classes, and accounts, with dashboards for attendance and exams.",
+    year: "2026",
+    status: "Live",
+    client: "Premier School Dhaka",
+    role: "School ERP on Odoo",
+    timeline: "2026 · live",
+    statusLine: "Live · psd-erp.io",
+    url: "https://psd-erp.io/odoo",
+    industries: ["school-erp", "saas-ai"],
+    frameLabel: "Live screens sit behind sign-in",
+    tags: ["Odoo", "Python", "PostgreSQL"],
+    problem:
+      "A school franchise has to know who the students are, who teaches them, which class they are in, whether they were present, how the exam went, and what the accounts say. When those live in separate books, the office cannot see the day in one place.",
+    approach:
+      "Premier School ERP is Odoo. Python runs the application. PostgreSQL keeps the records. The school day opens on three dashboards: the education dashboard, the exam dashboard, and the attendance dashboard. Students, teachers, classes, and accounts sit behind those windows.",
+    stack: ["Odoo", "Python", "PostgreSQL"],
+    shipped: [
+      {
+        title: "Students",
+        text: "The people enrolled at the school, in one register the office and the class teacher can both use.",
+      },
+      {
+        title: "Teachers",
+        text: "The staff who take the classes, tied to the same record as the students they teach.",
+      },
+      {
+        title: "Classes",
+        text: "The groups the school actually runs, so a student, a teacher, and a room belong to the same class.",
+      },
+      {
+        title: "Accounts",
+        text: "The money side of the school, in the same system as the academic record, not in a second book.",
+      },
+      {
+        title: "Education dashboard",
+        text: "The overview of the school day, at psd-erp.io/odoo/education-dashboard. It opens after the school signs in.",
+      },
+      {
+        title: "Exam dashboard",
+        text: "Exams have their own window, at the education exam dashboard, so results are not chased through the general record.",
+      },
+      {
+        title: "Attendance dashboard",
+        text: "Attendance has its own window, so presence for the day is visible without opening every class by hand.",
+      },
+    ],
+    outcome:
+      "Premier School ERP is live at psd-erp.io. A school can run students, teachers, classes, attendance, exams, and accounts from those dashboards. The screens sit behind the school's sign-in, so this study does not publish private totals.",
   },
   {
     slug: "placeholder-client-portal",
@@ -251,5 +306,5 @@ export function studyBySlug(slug: string) {
 }
 
 export function studiesIn(industry: string) {
-  return studies.filter((study) => study.industry === industry);
+  return studies.filter((study) => study.industries?.includes(industry));
 }
