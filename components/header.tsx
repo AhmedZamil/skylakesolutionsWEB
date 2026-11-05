@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type FocusEvent, type ReactNode } from "react";
 import { BookPanel } from "@/components/book-panel";
+import { BrandName } from "@/components/brand-name";
 import { LogoMark } from "@/components/logo-mark";
 import { industries, nav } from "@/lib/site";
 
@@ -40,10 +41,7 @@ export function Header() {
       <div className="flex items-center justify-between gap-6 px-5 py-3.5 sm:px-8">
         <Link href="/" className="logo-link flex items-center gap-3" aria-label="Sky Lake Solutions home">
           <LogoMark variant="mark" className="h-10" priority />
-          <span className="leading-none">
-            <span className="block text-[15px] font-semibold tracking-[0.16em] text-ink">SKY LAKE</span>
-            <span className="mt-1 block text-[10px] font-medium tracking-[0.32em] text-muted">SOLUTIONS</span>
-          </span>
+          <BrandName className="text-[13px] leading-none sm:text-[15px]" />
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-4 text-sm font-medium text-ink/90 lg:flex xl:gap-6 xl:text-[15px]">

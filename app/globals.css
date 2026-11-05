@@ -315,11 +315,42 @@ html[data-intro="skip"] .intro-cover {
 
 .hex-glow {
   opacity: 0;
+  animation: hex-pulse 2.4s ease-in-out infinite;
 }
 
-.logo-link:hover .hex-glow,
-.logo-link:focus-visible .hex-glow {
-  animation: hex-pulse 2.4s ease-in-out infinite;
+.brand-name {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-serif), serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #00d8f0;
+  text-shadow: 0 0 16px rgba(0, 216, 240, 0.45);
+  white-space: nowrap;
+}
+
+.brand-name-text {
+  display: inline-block;
+}
+
+.brand-name-bar {
+  position: absolute;
+  bottom: 0.05em;
+  left: 0;
+  height: 0.14em;
+  background: linear-gradient(90deg, transparent, rgba(0, 216, 240, 0.2) 30%, #00d8f0);
+  box-shadow: 0 0 10px #00d8f0;
+}
+
+.brand-name-head {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 0.42em;
+  height: 1.05em;
+  transform: translate(40%, -50%);
+  background: #e7eef8;
+  box-shadow: 0 0 8px #fff, 0 0 16px #00d8f0, 0 0 28px #1f6bff;
 }
 
 @keyframes hex-pulse {
@@ -457,8 +488,7 @@ html[data-intro="skip"] .intro-cover {
     background: #00d8f0;
   }
 
-  .logo-link:hover .hex-glow,
-  .logo-link:focus-visible .hex-glow,
+  .hex-glow,
   .job-slide,
   .job-slide .star-pop {
     animation: none;

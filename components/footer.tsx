@@ -1,12 +1,11 @@
-import Image from "next/image";
 import Link from "next/link";
+import { BrandName } from "@/components/brand-name";
 import { LogoMark } from "@/components/logo-mark";
 import { services, site } from "@/lib/site";
 
 const company = [
   { href: "/work", label: "Work" },
   { href: "/reviews", label: "Reviews" },
-  { href: "/process", label: "Process" },
   { href: "/about", label: "About" },
   { href: "/faq", label: "FAQ" },
   { href: "/careers", label: "Careers" },
@@ -17,14 +16,9 @@ const company = [
 export function Footer() {
   return (
     <footer className="relative overflow-hidden border-t border-blue bg-bg">
-      <Image
-        src="/mark.jpg"
-        alt=""
-        width={420}
-        height={320}
-        aria-hidden="true"
-        className="pointer-events-none absolute top-1/2 left-1/2 h-[min(92vh,820px)] w-auto max-w-none -translate-x-1/2 -translate-y-1/2 opacity-20 mix-blend-screen"
-      />
+      <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20" aria-hidden="true">
+        <LogoMark variant="mark" className="h-[min(92vh,820px)]" />
+      </div>
       <div className="relative grid gap-12 px-6 py-16 sm:px-8 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div className="max-w-sm">
           <Link href="/" className="logo-link inline-block" aria-label="Sky Lake Solutions, back to top">
@@ -80,7 +74,9 @@ export function Footer() {
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-4 border-t border-line px-6 py-6 text-[13px] text-faint sm:px-8">
-        <p>© {new Date().getFullYear()} Sky Lake Solutions. All rights reserved.</p>
+        <p>
+          © {new Date().getFullYear()} <BrandName />. All rights reserved.
+        </p>
         <div className="flex gap-6">
           <Link href="/privacy" className="transition-colors hover:text-cyan">
             Privacy
