@@ -30,7 +30,7 @@ export function SchoolCharts() {
       <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">What one ERP holds</p>
       <h2 className="mt-3 font-display text-3xl text-cyan italic sm:text-4xl">The books a school can close.</h2>
       <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
-        These charts show the benefit of running a school this way. They are not private totals from Premier School Dhaka.
+        The screens above are Premier School Dhaka. These charts are the benefit of gathering that same work into one ERP. They are not a second copy of the school's totals.
       </p>
       <div className="mt-8 grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <div>

@@ -19,7 +19,11 @@ export type Study = {
   tags?: string[];
   cardImage?: string;
   heroImage?: string;
-  gallery?: { src: string; alt: string }[];
+  heroAlt?: string;
+  heroSize?: { width: number; height: number };
+  frameFit?: "cover" | "contain";
+  galleryLayout?: "grid" | "stack";
+  gallery?: { src: string; alt: string; caption?: string; width?: number; height?: number }[];
   stack: string[];
   shipped: { title: string; text: string }[];
   outcome: string;
@@ -87,7 +91,7 @@ export const studies: Study[] = [
     name: "Premier School ERP",
     subtitle: "One register for a school franchise",
     summary:
-      "Premier School ERP is the system a school franchise uses for the day: students, teachers, classes, and accounts, with dashboards for attendance and exams.",
+      "Premier School ERP is the register Premier School Dhaka opens for the day: students, teachers, classes, exams, and attendance, on one Odoo system.",
     year: "2026",
     status: "Live",
     client: "Premier School Dhaka",
@@ -96,45 +100,76 @@ export const studies: Study[] = [
     statusLine: "Live · psd-erp.io",
     url: "https://psd-erp.io/odoo",
     industries: ["school-erp", "saas-ai"],
-    frameLabel: "Live screens sit behind sign-in",
+    cardImage: "/work/premier-education.png",
+    heroImage: "/work/premier-education.png",
+    heroAlt: "Premier School Dhaka education dashboard for academic year 2026–27, with enrolments by class",
+    heroSize: { width: 1892, height: 862 },
+    frameFit: "contain",
+    galleryLayout: "stack",
+    gallery: [
+      {
+        src: "/work/premier-exam.png",
+        alt: "First semester skills dashboard, with averages by class and by section",
+        caption: "The exam window for the first semester: sheets, students, the average, then the same result by class and by section.",
+        width: 1906,
+        height: 846,
+      },
+      {
+        src: "/work/premier-skills.png",
+        alt: "Skill categories across the first semester, from reading and writing to problem solving",
+        caption: "The same exam, read by skill: reading, writing, comprehension, and the rest of the categories the school marks.",
+        width: 1895,
+        height: 850,
+      },
+      {
+        src: "/work/premier-subjects.png",
+        alt: "Class by subject table of under and well percentages",
+        caption: "Under and well, class by subject, from Arabic and Bangla through mathematics and science.",
+        width: 1907,
+        height: 370,
+      },
+      {
+        src: "/work/premier-attendance.png",
+        alt: "Attendance dashboard for every section, with sections to watch",
+        caption: "A month of attendance across every section, then the sections the office should watch.",
+        width: 1891,
+        height: 850,
+      },
+    ],
     tags: ["Odoo", "Python", "PostgreSQL"],
     problem:
-      "A school franchise has to know who the students are, who teaches them, which class they are in, whether they were present, how the exam went, and what the accounts say. When those live in separate books, the office cannot see the day in one place.",
+      "A school franchise has to know who is enrolled, who teaches them, which section they sit in, whether the class was present, and how the exam went. When those live in separate books, the office cannot see the day in one place.",
     approach:
-      "Premier School ERP is Odoo. Python runs the application. PostgreSQL keeps the records. The school day opens on three dashboards: the education dashboard, the exam dashboard, and the attendance dashboard. Students, teachers, classes, and accounts sit behind those windows.",
+      "Premier School ERP is Odoo. Python runs the application. PostgreSQL keeps the records. Premier School Dhaka, Uttara, opens on the education dashboard for the academic year, then on the exam window and the attendance window. Students, guardians, leaves, teachers, sections, subjects, and the timetable sit in the same menu.",
     stack: ["Odoo", "Python", "PostgreSQL"],
     shipped: [
       {
-        title: "Students",
-        text: "The people enrolled at the school, in one register the office and the class teacher can both use.",
-      },
-      {
-        title: "Teachers",
-        text: "The staff who take the classes, tied to the same record as the students they teach.",
-      },
-      {
-        title: "Classes",
-        text: "The groups the school actually runs, so a student, a teacher, and a room belong to the same class.",
-      },
-      {
-        title: "Accounts",
-        text: "The money side of the school, in the same system as the academic record, not in a second book.",
-      },
-      {
         title: "Education dashboard",
-        text: "The overview of the school day, at psd-erp.io/odoo/education-dashboard. It opens after the school signs in.",
+        text: "The school day for academic year 2026–27. One window counts active students and enrolments, classes, sections, levels, subjects, active teachers, and timetables, then draws enrolments by class, students by status, and the section mix.",
       },
       {
-        title: "Exam dashboard",
-        text: "Exams have their own window, at the education exam dashboard, so results are not chased through the general record.",
+        title: "Students, guardians, and teachers",
+        text: "Who is enrolled, who is responsible for them, and who teaches. Leaves sit in the same menu, so an absence has a place next to the person.",
+      },
+      {
+        title: "Classes, sections, subjects, and the timetable",
+        text: "The classes the school runs, the sections inside them, the subjects on the week, and the timetables. A student and a teacher meet in a section, not in a separate sheet.",
+      },
+      {
+        title: "Exam and skills",
+        text: "The exam dashboard opens on a semester. It counts the sheets and the students, shows the average, and splits the result by class and by section.",
+      },
+      {
+        title: "Class by subject",
+        text: "Under and well, for each class against each subject. The office can see where a class is holding and where it is not, without opening every mark sheet.",
       },
       {
         title: "Attendance dashboard",
-        text: "Attendance has its own window, so presence for the day is visible without opening every class by hand.",
+        text: "A date range across every section: the attendance share, absences, late marks, sections still incomplete, and who is on leave. Sections to watch sit under the totals.",
       },
     ],
     outcome:
-      "Premier School ERP is live at psd-erp.io. A school can run students, teachers, classes, attendance, exams, and accounts from those dashboards. The screens sit behind the school's sign-in, so this study does not publish private totals.",
+      "Premier School ERP is live at psd-erp.io. The education, exam, and attendance dashboards are what the school opens after sign-in. This study shows those windows. The live system itself stays behind the school's login.",
   },
   {
     slug: "placeholder-client-portal",

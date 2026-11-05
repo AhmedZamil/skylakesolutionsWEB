@@ -9,7 +9,7 @@ export function StudyCard({ study }: { study: Study }) {
       className="group overflow-hidden rounded-2xl border border-line bg-card transition-colors duration-300 hover:border-cyan"
     >
       <div className="relative">
-        <StudyFrame src={study.cardImage} alt={study.name} pending={study.frameLabel} />
+        <StudyFrame src={study.cardImage} alt={study.name} pending={study.frameLabel} fit={study.frameFit} />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-blue/25 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
       </div>
       <div className="p-6 md:p-7">
