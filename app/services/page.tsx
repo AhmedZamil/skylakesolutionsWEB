@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BuildStage } from "@/components/build-stage";
 import { CtaBand } from "@/components/cta-band";
 import { PageHero } from "@/components/page-hero";
 import { engagements, services } from "@/lib/site";
@@ -18,6 +19,8 @@ export default function ServicesPage() {
         italic="whole product."
         lede="Strategy, design, engineering, and operations under one roof, so nothing is lost between handoffs."
       />
+
+      <BuildStage />
 
       <section className="border-b border-line px-6 py-16 sm:px-8">
         <div className="grid gap-8 lg:grid-cols-2">

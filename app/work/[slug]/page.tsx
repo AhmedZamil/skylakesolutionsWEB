@@ -167,7 +167,7 @@ export default async function StudyPage({ params }: { params: Promise<{ slug: st
                 <Arrow />
               </a>
             ) : null}
-            <Link href="/contact" className="inline-flex h-12 items-center bg-blue px-5 text-sm font-semibold text-white hover:bg-[#3c86f5]">
+            <Link href="/contact" className="inline-flex h-12 items-center border border-line-strong px-5 text-sm font-semibold hover:border-cyan hover:text-cyan">
               Start a project
             </Link>
           </div>
