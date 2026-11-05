@@ -99,6 +99,72 @@ export function BuildWindow() {
   );
 }
 
+export function StatRow({
+  stats,
+}: {
+  stats: readonly { value: number; prefix: string; suffix: string; label: string }[];
+}) {
+  const reduce = useReducedMotion();
+  const ref = useRef<HTMLDListElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.6 });
+  const [progress, setProgress] = useState(reduce ? 1 : 0);
+
+  useEffect(() => {
+    if (reduce) {
+      setProgress(1);
+      return;
+    }
+    if (!inView) return;
+    const start = performance.now();
+    let frame = 0;
+    const tick = (now: number) => {
+      const next = Math.min(1, (now - start) / 1100);
+      setProgress(next);
+      if (next < 1) frame = window.requestAnimationFrame(tick);
+    };
+    frame = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(frame);
+  }, [inView, reduce]);
+
+  return (
+    <dl ref={ref} className="mt-6 grid grid-cols-3 gap-2 sm:gap-3">
+      {stats.map((stat) => {
+        const current = Math.round(stat.value * progress);
+        const shown = current.toLocaleString("en-US");
+        return (
+          <div key={stat.label} className="border border-line bg-black px-2 py-3 text-center sm:px-3">
+            <dt className="font-display text-2xl text-cyan italic sm:text-3xl">
+              {stat.prefix}
+              {shown}
+              {stat.suffix}
+            </dt>
+            <dd className="mt-1 text-[10px] tracking-[0.12em] text-faint uppercase">{stat.label}</dd>
+          </div>
+        );
+      })}
+    </dl>
+  );
+}
+
+export function ExperienceTimeline({
+  items,
+}: {
+  items: readonly { when: string; title: string; detail: string }[];
+}) {
+  return (
+    <ol className="relative mt-6 space-y-5 border-l border-cyan/40 pl-5">
+      {items.map((item, index) => (
+        <li key={item.when + item.title} className="rise relative" style={{ animationDelay: `${index * 0.12}s` }}>
+          <span aria-hidden="true" className="absolute top-1.5 -left-[1.45rem] h-2 w-2 rounded-full bg-cyan shadow-[0_0_10px_#00d8f0]" />
+          <p className="text-[11px] tracking-[0.14em] text-cyan uppercase">{item.when}</p>
+          <p className="mt-1 text-sm font-semibold text-ink">{item.title}</p>
+          <p className="text-sm leading-relaxed text-muted">{item.detail}</p>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 export function DhakaClock() {
   const [time, setTime] = useState("--:--");
 

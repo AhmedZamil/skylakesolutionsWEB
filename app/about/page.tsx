@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ArchitectureGraph, BuildWindow, DhakaClock } from "@/components/about-stage";
+import { ArchitectureGraph, BuildWindow, DhakaClock, ExperienceTimeline, StatRow } from "@/components/about-stage";
 import { CtaBand } from "@/components/cta-band";
 import { Reveal } from "@/components/reveal";
 import { capabilities, founders, values } from "@/lib/about";
@@ -102,19 +102,29 @@ export default function AboutPage() {
                 <span className="ml-auto text-[11px] tracking-[0.14em] text-cyan/80 uppercase">Profile</span>
               </div>
               <div className="grid lg:grid-cols-[minmax(240px,320px)_1fr]">
-                <div className="relative min-h-80 lg:min-h-[32rem]">
-                  <Image
-                    src={founder.photo}
-                    alt={founder.name}
-                    fill
-                    sizes="(min-width: 1024px) 320px, 100vw"
-                    className="object-cover object-top"
-                  />
+                <div className="flex min-h-80 items-center justify-center bg-black lg:min-h-[32rem]">
+                  <div className="relative h-56 w-56 overflow-hidden rounded-full border border-cyan/30 shadow-[0_0_40px_rgba(0,216,240,0.18)] sm:h-64 sm:w-64">
+                    <Image
+                      src={founder.photo}
+                      alt={founder.name}
+                      fill
+                      sizes="256px"
+                      className="object-cover object-top"
+                    />
+                  </div>
                 </div>
-                <div className="h-72 overflow-y-auto px-6 py-6 sm:h-80 sm:px-8 lg:h-[22rem]">
-                  <p className="text-[11px] tracking-[0.18em] text-cyan uppercase">{founder.role}</p>
+                <div className="h-80 overflow-y-auto bg-black px-6 py-6 sm:px-8 lg:h-[32rem]">
+                  <p className="text-[11px] tracking-[0.18em] text-cyan uppercase">
+                    {founder.role} · {founder.years}
+                  </p>
                   <h3 className="mt-2 font-display text-4xl text-ink italic sm:text-5xl">{founder.name}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-ink">{founder.title}</p>
                   <p className="mt-2 text-sm text-muted">{founder.place}</p>
+                  {founder.stats.length > 0 ? <StatRow stats={founder.stats} /> : null}
+                  {founder.highlight ? (
+                    <p className="mt-6 border border-cyan/40 bg-cyan/5 px-4 py-4 text-sm leading-relaxed text-ink">{founder.highlight}</p>
+                  ) : null}
+                  {founder.timeline.length > 0 ? <ExperienceTimeline items={founder.timeline} /> : null}
                   <ul className="mt-6 space-y-4">
                     {founder.points.map((point) => (
                       <li key={point} className="border-l border-cyan/40 pl-4 text-sm leading-relaxed text-muted">

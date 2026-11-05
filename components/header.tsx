@@ -138,7 +138,8 @@ export function Header() {
                   href={item.href}
                   className={`flex items-center gap-2 border-b border-line py-4 text-lg font-medium ${
                     (item.href === "/work" && pathname.startsWith("/work")) ||
-                    (item.href === "/solutions" && pathname.startsWith("/solutions"))
+                    (item.href === "/solutions" && pathname.startsWith("/solutions")) ||
+                    (item.href !== "/work" && item.href !== "/solutions" && pathname === item.href)
                       ? "text-cyan"
                       : ""
                   }`}
