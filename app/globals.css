@@ -116,6 +116,32 @@ body {
   animation: pulse-ring 3s ease-in-out infinite;
 }
 
+.arch-line {
+  background-image: repeating-linear-gradient(90deg, #00d8f0 0 10px, transparent 10px 22px);
+  animation: arch-dash 1.4s linear infinite;
+}
+
+.arch-pulse {
+  top: 1.45rem;
+  left: 10%;
+  animation: arch-travel 4.8s linear infinite;
+}
+
+@keyframes arch-dash {
+  to {
+    background-position: 22px 0;
+  }
+}
+
+@keyframes arch-travel {
+  from {
+    left: 10%;
+  }
+  to {
+    left: 86%;
+  }
+}
+
 .motion-bg {
   position: fixed;
   inset: 0;
@@ -246,6 +272,8 @@ html[data-intro="skip"] .intro-cover {
   .pulse-ring,
   .live-dot,
   .approach-glow,
+  .arch-line,
+  .arch-pulse,
   .motion-grain,
   .intro-letter,
   .intro-line,
