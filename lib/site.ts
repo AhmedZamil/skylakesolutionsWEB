@@ -8,11 +8,65 @@ export const site = {
 
 export const nav = [
   { href: "/services", label: "Services" },
+  { href: "/solutions", label: "Solutions" },
   { href: "/work", label: "Work" },
   { href: "/process", label: "Process" },
   { href: "/about", label: "About" },
   { href: "/faq", label: "FAQ" },
 ];
+
+export const industries = [
+  {
+    slug: "school-erp",
+    name: "School ERP",
+    lede: "The records, fees, and timetables a school actually runs on, in one product the office can trust.",
+    path: "How a school ERP engagement runs.",
+  },
+  {
+    slug: "ota",
+    name: "Online travel agency (OTA)",
+    lede: "Search, compare, and book, with fares from the airlines’ own systems and a price that already includes taxes and fees.",
+    path: "How an OTA engagement runs.",
+  },
+  {
+    slug: "saas-ai",
+    name: "SaaS and AI",
+    lede: "A product people can try, understand, and keep using, with the account, the data, and the release path behind it.",
+    path: "How a SaaS engagement runs.",
+  },
+  {
+    slug: "climate-energy",
+    name: "Climate and energy",
+    lede: "Software for the people who measure, trade, or operate energy, written so the numbers stay checkable.",
+    path: "How a climate and energy engagement runs.",
+  },
+  {
+    slug: "healthcare",
+    name: "Healthcare",
+    lede: "Patient, clinic, and operations software that is careful with access and plain about what happens next.",
+    path: "How a healthcare engagement runs.",
+  },
+  {
+    slug: "ecommerce",
+    name: "E-commerce",
+    lede: "A store and the systems around it: catalogue, checkout, and the work that follows an order.",
+    path: "How an e-commerce engagement runs.",
+  },
+  {
+    slug: "nonprofit",
+    name: "Non-profit and NGO",
+    lede: "The site, the donor path, and the records a small team can keep after the campaign is over.",
+    path: "How a non-profit engagement runs.",
+  },
+  {
+    slug: "foundation",
+    name: "Foundation",
+    lede: "Grant, programme, and reporting software for a foundation that has to show where the money went.",
+    path: "How a foundation engagement runs.",
+  },
+] as const;
+
+export type IndustrySlug = (typeof industries)[number]["slug"];
 
 export const services = [
   {
