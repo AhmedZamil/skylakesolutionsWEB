@@ -14,12 +14,71 @@ export type Study = {
   url?: string;
   problem: string;
   approach: string;
+  tags?: string[];
+  cardImage?: string;
+  heroImage?: string;
+  gallery?: { src: string; alt: string }[];
   stack: string[];
   shipped: { title: string; text: string }[];
   outcome: string;
 };
 
 export const studies: Study[] = [
+  {
+    slug: "aerotake",
+    name: "Aerotake",
+    subtitle: "Search, compare, and book flights",
+    summary:
+      "Aerotake helps travellers search, compare and book flights. Fares come straight from the airlines' own booking systems, and the price you see includes taxes and fees.",
+    year: "2026",
+    status: "Live",
+    client: "Aerotake · United Kingdom",
+    role: "Design and the full build",
+    timeline: "2026 · live",
+    statusLine: "Live · aerotake.net",
+    url: "https://aerotake.net/",
+    cardImage: "/work/aerotake-home.png",
+    heroImage: "/work/aerotake-results.png",
+    gallery: [
+      { src: "/work/aerotake-home.png", alt: "Aerotake homepage search, Dhaka to Dubai" },
+      { src: "/work/aerotake-routes.png", alt: "Popular flight routes on the Aerotake homepage" },
+      { src: "/work/aerotake-destinations.png", alt: "Destination cards on the Aerotake homepage" },
+    ],
+    tags: ["Next.js", ".NET Core", "PostgreSQL", "Stripe", "Docker"],
+    problem:
+      "A traveller should be able to search flights, compare them, and see a price that already includes taxes and fees. The fares have to come from the airlines' own booking systems, not from a second-hand list that drifts out of date. Searching stays open without an account. Reserving a seat asks the traveller to sign in, so the booking has a home.",
+    approach:
+      "The public site is Next.js. Behind it, .NET Core services run in Docker and talk to one another over APIs. PostgreSQL keeps accounts and bookings. Airline booking systems supply the fares, across thousands of airlines. Stripe is the card path for when online payment opens. The screens follow the trip: search, compare, then book.",
+    stack: ["Next.js", ".NET Core", "Docker", "Microservices", "APIs", "PostgreSQL", "Stripe", "Airline booking systems"],
+    shipped: [
+      {
+        title: "Flight search",
+        text: "One way, round trip, or multi-city. Airports, dates, travellers and class, then a regular, student, or Umrah fare. The homepage opens on a search a traveller can change.",
+      },
+      {
+        title: "The comparison screen",
+        text: "A date strip with prices, a budget, stops, departure windows, and airlines. Sort by recommended, cheapest, earliest, or fastest. Each row shows the airline, the times, the stops, and the price.",
+      },
+      {
+        title: "Airline inventory",
+        text: "Fares are read from the airlines' own booking systems. The price on the card includes taxes and fees. Thousands of airlines sit behind that search.",
+      },
+      {
+        title: "Accounts and bookings",
+        text: "Search does not require an account. Reserving does. My Bookings and a booking reference give the traveller a way back to the ticket.",
+      },
+      {
+        title: "Payment with Stripe",
+        text: "Stripe is the card path in the build. The public refund page still says the policy is being finished before online payment opens, so this study does not claim that checkout is already taking cards.",
+      },
+      {
+        title: "The public site",
+        text: "Home, services, about, contact, and FAQ, plus popular routes and destination cards that start a search a month ahead.",
+      },
+    ],
+    outcome:
+      "Aerotake is open at aerotake.net. Travellers can search and compare fares there today. The Stripe payment path is built, and online card checkout waits until the refund policy is published.",
+  },
   {
     slug: "placeholder-client-portal",
     name: "Placeholder client portal",

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { StudyFrame } from "@/components/study-frame";
@@ -71,8 +72,30 @@ export default async function StudyPage({ params }: { params: Promise<{ slug: st
       </section>
 
       <section className="border-b border-line px-6 py-10 sm:px-8">
-        <div className="mx-auto max-w-5xl overflow-hidden rounded-2xl border border-line">
-          <StudyFrame />
+        <div className="mx-auto max-w-6xl">
+          <div className="overflow-hidden rounded-2xl border border-line bg-white">
+            {study.heroImage ? (
+              <Image
+                src={study.heroImage}
+                alt={`${study.name} flight results`}
+                width={1887}
+                height={856}
+                className="h-auto w-full"
+                priority
+              />
+            ) : (
+              <StudyFrame src={study.cardImage} alt={study.name} />
+            )}
+          </div>
+          {study.gallery?.length ? (
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+              {study.gallery.map((shot) => (
+                <div key={shot.src} className="overflow-hidden rounded-2xl border border-line">
+                  <StudyFrame src={shot.src} alt={shot.alt} />
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
       </section>
 
