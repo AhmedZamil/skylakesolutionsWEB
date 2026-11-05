@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { LogoMark } from "@/components/logo-mark";
 import { services, site } from "@/lib/site";
 
 const company = [
@@ -15,11 +16,19 @@ const company = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-blue bg-bg">
-      <div className="grid gap-12 px-6 py-16 sm:px-8 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
+    <footer className="relative overflow-hidden border-t border-blue bg-bg">
+      <Image
+        src="/mark.jpg"
+        alt=""
+        width={420}
+        height={320}
+        aria-hidden="true"
+        className="pointer-events-none absolute top-1/2 left-1/2 h-[min(92vh,820px)] w-auto max-w-none -translate-x-1/2 -translate-y-1/2 opacity-20 mix-blend-screen"
+      />
+      <div className="relative grid gap-12 px-6 py-16 sm:px-8 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div className="max-w-sm">
-          <Link href="/" aria-label="Sky Lake Solutions, back to top">
-            <Image src="/logo.jpg" alt="Sky Lake Solutions" width={580} height={490} className="h-28 w-auto" />
+          <Link href="/" className="logo-link inline-block" aria-label="Sky Lake Solutions, back to top">
+            <LogoMark variant="logo" className="h-28" />
           </Link>
           <p className="mt-4 text-[15px] leading-relaxed text-muted">
             Software engineering for teams that want clear thinking and dependable delivery, from the first release onward.
