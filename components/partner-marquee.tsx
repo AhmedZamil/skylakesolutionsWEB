@@ -10,10 +10,10 @@ const partners = [
   { name: "IMEX BD Logistics", href: "https://www.imexbdlogistics.com/" },
 ] as const;
 
-function Mark({ partner }: { partner: (typeof partners)[number] }) {
+function Mark({ partner, logos }: { partner: (typeof partners)[number]; logos: boolean }) {
   const body = (
     <>
-      {"logo" in partner && partner.logo ? (
+      {logos && "logo" in partner && partner.logo ? (
         <span className={`inline-flex h-10 items-center px-3 ${partner.plate}`}>
           <Image src={partner.logo} alt="" height={32} width={140} className="h-7 w-auto object-contain" />
         </span>
@@ -32,7 +32,7 @@ function Mark({ partner }: { partner: (typeof partners)[number] }) {
   return <span className={className}>{body}</span>;
 }
 
-export function PartnerMarquee() {
+export function PartnerMarquee({ logos = true }: { logos?: boolean }) {
   const row = [...partners, ...partners];
   return (
     <section className="partner-marquee overflow-hidden border-b border-line py-6" aria-label="Partners">
@@ -40,7 +40,7 @@ export function PartnerMarquee() {
       <div className="mt-4 overflow-hidden">
         <div className="marquee-track flex w-max items-center">
           {row.map((partner, index) => (
-            <Mark key={`${partner.name}-${index}`} partner={partner} />
+            <Mark key={`${partner.name}-${index}`} partner={partner} logos={logos} />
           ))}
         </div>
       </div>

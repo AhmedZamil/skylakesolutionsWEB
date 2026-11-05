@@ -37,8 +37,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <PartnerMarquee />
-
       <section className="grid border-b border-line sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-line">
         {promises.map((item) => (
           <div key={item.title} className="border-b border-line px-6 py-8 sm:px-8 lg:border-b-0">
@@ -80,6 +78,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      <PartnerMarquee logos={false} />
       <CapabilityGrid />
       <Timeline />
 
