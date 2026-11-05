@@ -200,14 +200,16 @@ export function ProcessRail() {
     if (!view || !track) return;
 
     let frame = 0;
+    const sweepMs = 3000;
     const holdMs = 2400;
     const glideMs = 650;
     const unit = holdMs + glideMs;
-    const total = (frames - 1) * unit + holdMs;
+    const loopTotal = (frames - 1) * unit + holdMs;
     const started = performance.now();
 
     const progressAt = (elapsed: number) => {
-      const t = elapsed % total;
+      if (elapsed <= sweepMs) return Math.min(1, elapsed / sweepMs);
+      const t = (elapsed - sweepMs) % loopTotal;
       const index = Math.min(frames - 1, Math.floor(t / unit));
       const into = t - index * unit;
       if (index === frames - 1 || into <= holdMs) return index / (frames - 1);

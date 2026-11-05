@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BrandName } from "@/components/brand-name";
 import { StudyCard } from "@/components/study-card";
 import { studies } from "@/lib/work";
 
@@ -15,7 +16,9 @@ export default function WorkPage() {
           <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">Work</p>
           <h1 className="mt-4 text-4xl leading-[1.05] font-semibold tracking-[-0.03em] sm:text-6xl">
             Case studies from
-            <span className="mt-2 block font-display font-normal text-cyan italic">Sky Lake Solutions.</span>
+            <span className="mt-2 block">
+              <BrandName />.
+            </span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
             Each study is a product Sky Lake designed, built, and shipped. Aerotake and Premier School ERP are live. The other entries hold the same shape until their real stories, and their screenshots, are ready.

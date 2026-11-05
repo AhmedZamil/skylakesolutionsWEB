@@ -42,29 +42,6 @@ export const values = [
 
 export const founders = [
   {
-    name: "Ahmed Zamil",
-    role: "Co-Founder",
-    years: "13 years",
-    yearsCount: 13,
-    title: "Full-Stack Developer · ASP.NET, .NET Core, C#, Angular, Azure",
-    place: "SKY LAKE SOLUTIONS · Dhaka, Bangladesh",
-    photo: "/team/ahmed.jpg",
-    href: "https://www.upwork.com/freelancers/~01964ce0e272143895",
-    link: "Open the live Upwork profile",
-    chips: ["ASP.NET", ".NET Core", "C#", "Angular", "Azure"],
-    points: [
-      "Computer science and engineering graduate of 2012, with 13 years building software.",
-      "Full-stack work across ASP.NET, .NET Core, C#, Angular, and Azure, including remote work with Milbix in New Zealand.",
-    ],
-    stats: [
-      { value: 60, prefix: "$", suffix: "K+", label: "Total earnings" },
-      { value: 8, prefix: "", suffix: "", label: "Total jobs" },
-      { value: 3108, prefix: "", suffix: "", label: "Total hours" },
-    ],
-    highlight: "",
-    timeline: [],
-  },
-  {
     name: "Raihana Fardous",
     role: "Co-Founder",
     years: "12 years",
@@ -105,6 +82,29 @@ export const founders = [
       { when: "Mar 2012 — Feb 2014", title: "Software Engineer", detail: "SmartAspects · Dhaka" },
       { when: "Apr 2008 — Dec 2008", title: "Teacher Assistant", detail: "United International University · Dhaka" },
     ],
+  },
+  {
+    name: "Ahmed Zamil",
+    role: "Co-Founder",
+    years: "13 years",
+    yearsCount: 13,
+    title: "Full-Stack Developer · ASP.NET, .NET Core, C#, Angular, Azure",
+    place: "SKY LAKE SOLUTIONS · Dhaka, Bangladesh",
+    photo: "/team/ahmed.jpg",
+    href: "https://www.upwork.com/freelancers/~01964ce0e272143895",
+    link: "Open the live Upwork profile",
+    chips: ["ASP.NET", ".NET Core", "C#", "Angular", "Azure"],
+    points: [
+      "Computer science and engineering graduate of 2012, with 13 years building software.",
+      "Full-stack work across ASP.NET, .NET Core, C#, Angular, and Azure, including remote work with Milbix in New Zealand.",
+    ],
+    stats: [
+      { value: 60, prefix: "$", suffix: "K+", label: "Total earnings" },
+      { value: 8, prefix: "", suffix: "", label: "Total jobs" },
+      { value: 3108, prefix: "", suffix: "", label: "Total hours" },
+    ],
+    highlight: "",
+    timeline: [],
   },
 ] as const;
 

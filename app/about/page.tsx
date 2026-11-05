@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { ArchitectureGraph, BuildWindow, DhakaClock, ExperienceTimeline, StatRow, YearFigure } from "@/components/about-stage";
 import { CtaBand } from "@/components/cta-band";
+import { BrandName } from "@/components/brand-name";
 import { Reveal } from "@/components/reveal";
 import { TeamBoard } from "@/components/team-board";
 import { capabilities, founders, values } from "@/lib/about";
@@ -22,7 +23,7 @@ export default function AboutPage() {
             <span className="mt-2 block font-display text-[1.02em] font-normal text-cyan italic">from Dhaka for the world.</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
-            SKY LAKE SOLUTIONS designs, builds, and runs web, mobile, and cloud products. The people who scope the work are the people who review the code.
+            <BrandName /> designs, builds, and runs web, mobile, and cloud products. The people who scope the work are the people who review the code.
           </p>
         </Reveal>
       </section>
@@ -30,7 +31,9 @@ export default function AboutPage() {
       <section className="border-b border-line px-6 py-16 sm:px-8 sm:py-20">
         <div className="grid items-start gap-12 lg:grid-cols-[1.05fr_0.95fr]">
           <Reveal>
-            <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">SKY LAKE SOLUTIONS</p>
+            <p className="text-[12px] font-semibold tracking-[0.22em] uppercase">
+              <BrandName />
+            </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">Software a senior team can stand behind.</h2>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">
               We build the systems a business actually runs on: the API, the services behind it, and the interface people open. .NET Core, microservices, Docker, and Next.js, carried through the full stack.
@@ -55,7 +58,16 @@ export default function AboutPage() {
           {capabilities.map((item, index) => (
             <Reveal key={item.title} delay={index * 0.08} className="border-t-2 border-cyan pt-5">
               <h2 className="text-2xl font-semibold tracking-tight">{item.title}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-muted">{item.text}</p>
+              <p className="mt-3 text-sm leading-relaxed text-muted">
+                {item.text.startsWith("SKY LAKE SOLUTIONS") ? (
+                  <>
+                    <BrandName />
+                    {item.text.slice("SKY LAKE SOLUTIONS".length)}
+                  </>
+                ) : (
+                  item.text
+                )}
+              </p>
             </Reveal>
           ))}
         </div>
@@ -65,9 +77,13 @@ export default function AboutPage() {
         <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr]">
           <Reveal>
             <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">Our story</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">Why SKY LAKE SOLUTIONS</h2>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
+              Why <BrandName />
+            </h2>
             <div className="mt-6 max-w-xl space-y-5 text-lg leading-relaxed text-muted">
-              <p>SKY LAKE SOLUTIONS is a senior developers team in Dhaka. You talk to the people writing the code. There is no second team hidden behind the call.</p>
+              <p>
+                <BrandName /> is a senior developers team in Dhaka. You talk to the people writing the code. There is no second team hidden behind the call.
+              </p>
               <p>
                 Clients come to us when a product has outgrown a handoff between a deck, a design file, and a build nobody will maintain. We stay from the first conversation through release, and after, if you want us there.
               </p>
@@ -76,7 +92,9 @@ export default function AboutPage() {
           </Reveal>
           <Reveal delay={0.1} className="border border-line bg-card p-8">
             <p className="font-display text-3xl text-cyan italic">“You talk to the engineers.”</p>
-            <p className="mt-4 text-sm text-muted">SKY LAKE SOLUTIONS · Dhaka, Bangladesh</p>
+            <p className="mt-4 text-sm text-muted">
+              <BrandName /> · Dhaka, Bangladesh
+            </p>
           </Reveal>
         </div>
       </section>
@@ -119,7 +137,10 @@ export default function AboutPage() {
                   <YearFigure years={founder.yearsCount} />
                   <h3 className="mt-4 font-display text-4xl text-ink italic sm:text-5xl">{founder.name}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-ink">{founder.title}</p>
-                  <p className="mt-2 text-sm text-muted">{founder.place}</p>
+                  <p className="mt-2 text-sm text-muted">
+                    <BrandName />
+                    {founder.place.slice("SKY LAKE SOLUTIONS".length)}
+                  </p>
                   {founder.stats.length > 0 ? <StatRow stats={founder.stats} /> : null}
                   {founder.highlight ? (
                     <p className="mt-6 border border-cyan/40 bg-cyan/5 px-4 py-4 text-sm leading-relaxed text-ink">{founder.highlight}</p>
