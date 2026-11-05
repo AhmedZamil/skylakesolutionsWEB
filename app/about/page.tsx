@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ArchitectureGraph, BuildWindow, DhakaClock, ExperienceTimeline, StatRow, YearFigure } from "@/components/about-stage";
 import { CtaBand } from "@/components/cta-band";
 import { Reveal } from "@/components/reveal";
+import { TeamBoard } from "@/components/team-board";
 import { capabilities, founders, values } from "@/lib/about";
 
 export const metadata: Metadata = {
@@ -102,8 +103,9 @@ export default function AboutPage() {
                 <span className="ml-auto text-[11px] tracking-[0.14em] text-cyan/80 uppercase">Profile</span>
               </div>
               <div className="grid lg:grid-cols-[minmax(240px,320px)_1fr]">
-                <div className="flex items-center justify-center bg-black py-10 lg:py-16">
-                  <div className="relative h-56 w-56 overflow-hidden rounded-full border border-cyan/30 shadow-[0_0_40px_rgba(0,216,240,0.18)] sm:h-64 sm:w-64">
+                <div className="flex flex-col items-center justify-center bg-black py-10 lg:py-16">
+                  <p className="year-glow font-display text-4xl text-cyan italic sm:text-5xl">Co-Founder</p>
+                  <div className="relative mt-6 h-56 w-56 overflow-hidden rounded-full border border-cyan/30 shadow-[0_0_40px_rgba(0,216,240,0.18)] sm:h-64 sm:w-64">
                     <Image
                       src={founder.photo}
                       alt={founder.name}
@@ -114,7 +116,6 @@ export default function AboutPage() {
                   </div>
                 </div>
                 <div className="bg-black px-6 py-6 sm:px-8 sm:py-8">
-                  <p className="text-[11px] tracking-[0.18em] text-cyan uppercase">{founder.role}</p>
                   <YearFigure years={founder.yearsCount} />
                   <h3 className="mt-4 font-display text-4xl text-ink italic sm:text-5xl">{founder.name}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-ink">{founder.title}</p>
@@ -151,6 +152,17 @@ export default function AboutPage() {
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="border-b border-line px-6 py-16 sm:px-8 sm:py-20">
+        <Reveal>
+          <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">The team</p>
+          <h2 className="mt-4 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">The people beside the founders.</h2>
+          <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted">
+            Eight of the bench, with the stacks the studio hires for. The counts are the full roster.
+          </p>
+        </Reveal>
+        <TeamBoard />
       </section>
 
       <section className="border-b border-line px-6 py-16 sm:px-8">

@@ -108,6 +108,26 @@ export const founders = [
   },
 ] as const;
 
+export const roster = [
+  { role: "Senior Developer", count: 4 },
+  { role: "Level II Developer", count: 2 },
+  { role: "Designer", count: 1 },
+  { role: "QA", count: 1 },
+  { role: "Architect", count: 1 },
+  { role: "Developers", count: 4 },
+] as const;
+
+export const bench = [
+  { name: "Farhan", role: "Senior Developer", years: 6, stack: ["Flutter", "Dart", "Firebase"] },
+  { name: "Nusrat", role: "Senior Developer", years: 4, stack: ["Java", "Android", "REST"] },
+  { name: "Imran", role: "Level II Developer", years: 5, stack: ["Laravel", "SQL", "Git"] },
+  { name: "Maliha", role: "Designer", years: 7, stack: ["Figma", "Adobe XD", "Illustrator"] },
+  { name: "Tanvir", role: "QA", years: 3, stack: ["Postman", "CI/CD", "Git"] },
+  { name: "Labib", role: "Architect", years: 4, stack: ["Node.js", "REST", "Firebase"] },
+  { name: "Sadia", role: "Developer", years: 5, stack: ["Python", "Flask", "SQLite"] },
+  { name: "Rafiq", role: "Developer", years: 6, stack: ["Flutter", "Laravel", "Stripe"] },
+] as const;
+
 export const buildLines = [
   "import { ship } from 'skylake'",
   "",

@@ -32,7 +32,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
           <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">Solutions</p>
           <h1 className="mt-4 text-4xl leading-[1.05] font-semibold tracking-[-0.03em] sm:text-6xl">{industry.name}</h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">{industry.lede}</p>
-          <Link href="/book" className="mt-8 inline-flex h-12 items-center bg-blue px-6 text-sm font-semibold text-white hover:bg-[#3c86f5]">
+          <Link href="/book" className="mt-8 inline-flex h-12 items-center border border-line-strong px-6 text-sm font-semibold hover:border-cyan hover:text-cyan">
             Book a call
           </Link>
         </div>
@@ -42,7 +42,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
         <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">Process</p>
         <h2 className="mt-4 max-w-3xl text-4xl leading-[1.05] font-semibold tracking-[-0.03em] sm:text-5xl">{industry.path}</h2>
         <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
-          Scroll down and the line travels across the four stages, then into the end. Scroll up and it comes back.
+          The line travels across the four stages, then into the trophy, on its own.
         </p>
         <div className="mt-10">
           <ProcessRail />

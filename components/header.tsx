@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type FocusEvent, type ReactNode } from "react";
 import { BookPanel } from "@/components/book-panel";
 import { industries, nav } from "@/lib/site";
 
@@ -11,6 +11,12 @@ export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
+  const [held, setHeld] = useState<"book" | "start" | null>(null);
+
+  function releaseHeld(event: FocusEvent<HTMLAnchorElement>) {
+    const next = event.relatedTarget;
+    if (!(next instanceof Node) || !event.currentTarget.parentElement?.contains(next)) setHeld(null);
+  }
 
   useEffect(() => {
     setOpen(false);
@@ -40,7 +46,7 @@ export function Header() {
           </span>
         </Link>
 
-        <nav aria-label="Main" className="hidden items-center gap-5 text-sm font-medium text-ink/90 lg:flex xl:gap-7 xl:text-[15px]">
+        <nav aria-label="Main" className="hidden items-center gap-4 text-sm font-medium text-ink/90 lg:flex xl:gap-6 xl:text-[15px]">
           {nav.map((item) => {
             const active =
               item.href === "/work"
@@ -90,23 +96,21 @@ export function Header() {
           })}
         </nav>
 
-        <div className="hidden items-center gap-2 lg:flex">
-          <Link
-            href="/book"
-            className="inline-flex h-11 items-center gap-2 border border-line-strong px-4 text-sm font-semibold text-ink transition-colors hover:border-cyan hover:text-cyan"
-          >
+        <div
+          className="chase-pair hidden items-center gap-2 lg:flex"
+          data-held={held ? "" : undefined}
+          onMouseLeave={() => setHeld(null)}
+        >
+          <ChaseLink href="/book" selected={held === "book"} onPick={() => setHeld("book")} onRelease={releaseHeld}>
             <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
               <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan opacity-70" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-cyan" />
             </span>
             Book a call
-          </Link>
-          <Link
-            href="/contact"
-            className="inline-flex h-11 items-center bg-blue px-5 text-sm font-semibold text-white transition-colors hover:bg-[#3c86f5]"
-          >
+          </ChaseLink>
+          <ChaseLink href="/contact" selected={held === "start"} onPick={() => setHeld("start")} onRelease={releaseHeld}>
             Start a project
-          </Link>
+          </ChaseLink>
         </div>
 
         <button
@@ -163,15 +167,17 @@ export function Header() {
               </div>
             ))}
           </nav>
-          <Link href="/book" className="mt-5 flex h-12 items-center justify-center gap-2 border border-line-strong text-base font-semibold">
-            <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-cyan" />
-            </span>
-            Book a call
-          </Link>
-          <Link href="/contact" className="mt-3 flex h-12 items-center justify-center bg-blue text-base font-semibold text-white">
-            Start a project
-          </Link>
+          <div className="chase-pair mt-5" data-held={held ? "" : undefined}>
+            <ChaseLink href="/book" full selected={held === "book"} onPick={() => setHeld("book")} onRelease={releaseHeld}>
+              <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-cyan" />
+              </span>
+              Book a call
+            </ChaseLink>
+            <ChaseLink href="/contact" full selected={held === "start"} onPick={() => setHeld("start")} onRelease={releaseHeld}>
+              Start a project
+            </ChaseLink>
+          </div>
         </div>
       ) : null}
     </header>
@@ -216,5 +222,40 @@ function SolutionsPanel() {
         <BookPanel live />
       </div>
     </div>
+  );
+}
+
+function ChaseLink({
+  href,
+  selected,
+  full = false,
+  onPick,
+  onRelease,
+  children,
+}: {
+  href: string;
+  selected: boolean;
+  full?: boolean;
+  onPick: () => void;
+  onRelease: (event: FocusEvent<HTMLAnchorElement>) => void;
+  children: ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      data-selected={selected ? "" : undefined}
+      onMouseEnter={onPick}
+      onFocus={onPick}
+      onBlur={onRelease}
+      className={full ? "chase-link is-full mt-3" : "chase-link"}
+    >
+      <span
+        className={`relative z-[1] m-px inline-flex items-center gap-2 border border-cyan/40 bg-bg text-sm font-semibold text-ink hover:text-cyan ${
+          full ? "h-12 w-full justify-center" : "h-11 px-4"
+        }`}
+      >
+        {children}
+      </span>
+    </Link>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "framer-motion";
 import { processSteps } from "@/lib/site";
 
 const tones = {
@@ -37,7 +38,7 @@ function starPath(cx: number, cy: number, radius: number) {
 function StepCard({ step }: { step: (typeof processSteps)[number] }) {
   const color = tones[step.tone];
   return (
-    <article className="relative z-10 flex h-full flex-col justify-center px-6 py-6 sm:px-8 md:px-[5vw]">
+    <article className="relative z-10 flex h-full flex-col justify-center overflow-hidden px-4 py-4 sm:px-6 md:px-[4vw]">
       <span
         aria-hidden="true"
         className="absolute top-6 left-6 hidden h-16 w-px md:left-[5vw] md:block"
@@ -55,16 +56,16 @@ function StepCard({ step }: { step: (typeof processSteps)[number] }) {
       <div className="mt-4 grid items-end gap-4 md:grid-cols-[auto_1fr] md:gap-8">
         <div
           className="font-display leading-[0.8] tracking-[-0.03em]"
-          style={{ color, fontSize: "clamp(5.5rem, 11vw, 12rem)", textShadow: `0 0 48px ${color}55` }}
+          style={{ color, fontSize: "clamp(2.6rem, 5vw, 4.4rem)", textShadow: `0 0 28px ${color}55` }}
         >
           {step.n}
         </div>
         <div className="md:pb-2">
-          <h2 className="font-display text-4xl leading-none tracking-tight sm:text-5xl">{step.title}</h2>
-          <p className="mt-3 max-w-xl text-base leading-relaxed text-muted md:text-lg">{step.text}</p>
+          <h2 className="font-display text-2xl leading-none tracking-tight sm:text-3xl">{step.title}</h2>
+          <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">{step.text}</p>
         </div>
       </div>
-      <div className="mt-6 grid gap-6 border-t border-line pt-6 md:grid-cols-[1.5fr_1fr] md:gap-10">
+      <div className="mt-3 grid gap-4 border-t border-line pt-3 md:grid-cols-[1.5fr_1fr] md:gap-6">
         <div>
           <p className="text-[10px] tracking-[0.22em] text-faint uppercase">Deliverables</p>
           <ul className="mt-3 grid gap-2 sm:grid-cols-2">
@@ -85,7 +86,7 @@ function StepCard({ step }: { step: (typeof processSteps)[number] }) {
               </span>
             ))}
           </div>
-          <p className="mt-6 hidden items-center gap-3 text-[10px] tracking-[0.22em] text-faint uppercase md:flex">
+          <p className="mt-3 hidden items-center gap-3 text-[10px] tracking-[0.22em] text-faint uppercase lg:flex">
             <span className="h-px w-8 bg-line" />
             Next · {step.next}
             <span aria-hidden="true">→</span>
@@ -114,7 +115,7 @@ function Trophy({ lit = false, mark }: { lit?: boolean; mark: string }) {
       className="flex h-full flex-col items-center justify-center px-6 text-center"
       style={{ ["--light" as string]: lit ? 1 : 0 }}
     >
-      <svg viewBox="0 0 360 430" className="h-[min(52vh,420px)] w-auto" aria-hidden="true">
+      <svg viewBox="0 0 360 430" className="h-36 w-auto sm:h-44" aria-hidden="true">
         <defs>
           <linearGradient id={mark} x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" stopColor="#1f6bff" />
@@ -183,30 +184,41 @@ function Trophy({ lit = false, mark }: { lit?: boolean; mark: string }) {
 }
 
 export function ProcessRail() {
-  const sceneRef = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
   const viewRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
   const trailRef = useRef<SVGPathElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
   const stepRef = useRef(0);
+  const progressRef = useRef(0);
   const [step, setStep] = useState(0);
 
   useEffect(() => {
-    const scene = sceneRef.current;
     const view = viewRef.current;
     const track = trackRef.current;
-    if (!scene || !view || !track) return;
+    if (!view || !track) return;
 
     let frame = 0;
+    const holdMs = 2400;
+    const glideMs = 650;
+    const unit = holdMs + glideMs;
+    const total = (frames - 1) * unit + holdMs;
+    const started = performance.now();
 
-    const paint = () => {
-      frame = 0;
-      if (getComputedStyle(scene).display === "none") return;
-      const total = Math.max(1, scene.offsetHeight - window.innerHeight);
-      const scrolled = Math.min(total, Math.max(0, -scene.getBoundingClientRect().top));
-      const progress = scrolled / total;
-      const panel = view.clientWidth * 0.8;
+    const progressAt = (elapsed: number) => {
+      const t = elapsed % total;
+      const index = Math.min(frames - 1, Math.floor(t / unit));
+      const into = t - index * unit;
+      if (index === frames - 1 || into <= holdMs) return index / (frames - 1);
+      const glide = Math.min(1, (into - holdMs) / glideMs);
+      const eased = glide * glide * (3 - 2 * glide);
+      return (index + eased) / (frames - 1);
+    };
+
+    const paint = (progress: number) => {
+      progressRef.current = progress;
+      const panel = view.clientWidth;
       const maxX = panel * (frames - 1);
       track.style.transform = `translate3d(${-progress * maxX}px, 0, 0)`;
       if (barRef.current) barRef.current.style.transform = `scaleX(${progress})`;
@@ -220,7 +232,8 @@ export function ProcessRail() {
         if (dotRef.current && track.offsetWidth > 0 && length > 0) {
           const point = trail.getPointAtLength(drawn);
           const x = (point.x / wave.width) * track.offsetWidth - progress * maxX;
-          const y = (point.y / 460) * view.clientHeight;
+          const band = view.clientHeight * 0.34;
+          const y = view.clientHeight - band + (point.y / 460) * band;
           dotRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
           dotRef.current.style.opacity = progress > 0.004 ? "1" : "0";
         }
@@ -238,44 +251,37 @@ export function ProcessRail() {
       if (finale) finale.style.setProperty("--light", light.toFixed(4));
     };
 
-    const requestPaint = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(paint);
+    const tick = (now: number) => {
+      if (reduce) {
+        paint(1);
+        return;
+      }
+      paint(progressAt(now - started));
+      frame = window.requestAnimationFrame(tick);
     };
 
-    paint();
-    const observer = new ResizeObserver(requestPaint);
+    frame = window.requestAnimationFrame(tick);
+    const observer = new ResizeObserver(() => paint(progressRef.current));
     observer.observe(view);
-    window.addEventListener("scroll", requestPaint, { passive: true });
-    window.addEventListener("resize", requestPaint);
     return () => {
       window.cancelAnimationFrame(frame);
       observer.disconnect();
-      window.removeEventListener("scroll", requestPaint);
-      window.removeEventListener("resize", requestPaint);
     };
-  }, []);
+  }, [reduce]);
 
   const onSuccess = step >= processSteps.length;
 
   return (
     <div>
-      <div className="process-stack space-y-16 md:hidden">
-        {processSteps.map((item) => (
-          <StepCard key={item.n} step={item} />
-        ))}
-        <Trophy lit mark="trophy-stroke-stack" />
-      </div>
-
-      <div ref={sceneRef} className="process-rail relative hidden md:block" style={{ height: "520vh" }}>
-        <div className="sticky top-0 flex h-dvh flex-col overflow-hidden px-6 pt-20 pb-8 sm:px-8">
+      <div className="process-rail relative h-[min(640px,78vh)] min-h-[420px] overflow-hidden border border-line bg-[#070d16]">
+        <div className="flex h-full flex-col overflow-hidden px-4 pt-5 pb-4 sm:px-6">
           <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
             <p className="flex items-center gap-3 text-xs tracking-[0.2em] text-muted uppercase">
               <span className="h-1.5 w-1.5 rounded-full bg-cyan" />
               Process
             </p>
             <p className="text-[10px] tracking-[0.22em] text-faint uppercase" aria-live="polite">
-              Scroll
+              Playing
               <span className="mx-3 text-line" aria-hidden="true">
                 |
               </span>
@@ -315,11 +321,11 @@ export function ProcessRail() {
             <div
               ref={trackRef}
               className="flex h-full will-change-transform"
-              style={{ width: `${frames * 80}%` }}
+              style={{ width: `${frames * 100}%` }}
             >
               <svg
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 h-full w-full"
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] w-full"
                 viewBox={`0 0 ${wave.width} 460`}
                 preserveAspectRatio="none"
               >

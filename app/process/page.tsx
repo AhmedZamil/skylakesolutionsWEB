@@ -16,7 +16,7 @@ export default function ProcessPage() {
           <span className="mt-2 block font-display font-normal text-cyan italic">idea to launch.</span>
         </h1>
         <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
-          Scroll down and the line travels across the four stages, then into the end. Scroll up and it comes back.
+          The line travels across the four stages, then into the trophy, on its own.
         </p>
         <div className="mt-10">
           <ProcessRail />
