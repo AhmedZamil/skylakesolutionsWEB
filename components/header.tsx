@@ -36,7 +36,7 @@ export function Header() {
 
         <nav aria-label="Main" className="hidden items-center gap-5 text-sm font-medium text-ink/90 lg:flex xl:gap-7 xl:text-[15px]">
           {nav.map((item) => {
-            const active = pathname === item.href;
+            const active = item.href === "/work" ? pathname.startsWith("/work") : pathname === item.href;
             return (
               <Link
                 key={item.href}
@@ -96,7 +96,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="border-b border-line py-4 text-lg font-medium"
+                className={`border-b border-line py-4 text-lg font-medium ${item.href === "/work" && pathname.startsWith("/work") ? "text-cyan" : ""}`}
               >
                 {item.label}
               </Link>
