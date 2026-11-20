@@ -353,6 +353,85 @@ html[data-intro="skip"] .intro-cover {
   box-shadow: 0 0 8px #fff, 0 0 16px #00d8f0, 0 0 28px #1f6bff;
 }
 
+.glow-line {
+  position: relative;
+  display: block;
+  font-family: var(--font-serif), serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #00d8f0;
+  text-shadow: 0 0 16px rgba(0, 216, 240, 0.45);
+}
+
+.glow-line-text {
+  display: inline;
+}
+
+.glow-line.is-holding .glow-blink {
+  animation: digit-blink 0.45s ease-in-out 1;
+}
+
+@keyframes digit-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.15;
+    text-shadow: 0 0 22px #00d8f0;
+  }
+}
+
+.more-band {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 520ms ease;
+}
+
+.more-band.is-open {
+  grid-template-rows: 1fr;
+}
+
+.more-band-inner {
+  overflow: hidden;
+}
+
+.more-rule {
+  height: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: linear-gradient(90deg, #1f6bff, #00d8f0);
+  box-shadow: 0 0 12px #00d8f0;
+}
+
+.more-band.is-open .more-rule {
+  animation: more-rule 700ms ease forwards;
+}
+
+.more-chip,
+.more-project {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.more-band.is-open .more-chip,
+.more-band.is-open .more-project {
+  animation: more-in 520ms ease forwards;
+}
+
+@keyframes more-rule {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes more-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @keyframes hex-pulse {
   0%,
   72%,
@@ -490,8 +569,23 @@ html[data-intro="skip"] .intro-cover {
 
   .hex-glow,
   .job-slide,
-  .job-slide .star-pop {
+  .job-slide .star-pop,
+  .glow-blink,
+  .more-rule,
+  .more-chip,
+  .more-project {
     animation: none;
+  }
+
+  .more-band {
+    transition: none;
+  }
+
+  .more-chip,
+  .more-project,
+  .more-rule {
+    opacity: 1;
+    transform: none;
   }
 
   .job-slide {
