@@ -7,7 +7,7 @@ import { upwork } from "@/lib/reviews";
 
 export const metadata: Metadata = {
   title: "Team",
-  description: "Three senior developers. Raihana Fardous, Sabber Ahammed, and Ahmed Zamil take a software product from the first call to a release the company can run.",
+  description: "Three senior developers. Ahmed Zamil, Raihana Fardous, and Sabber Ahammed take a software product from the first call to a release the company can run.",
 };
 
 export default function TeamPage() {
@@ -17,23 +17,26 @@ export default function TeamPage() {
         <div className="mx-auto max-w-4xl">
           <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">Team</p>
           <h1 className="mt-4 text-4xl leading-[1.05] font-semibold tracking-[-0.03em] sm:text-6xl">
-            Three Senior Developer
+            Three Senior Developers
             <span className="mt-2 block font-display font-normal text-cyan italic">One team you can hire.</span>
           </h1>
           <p className="mt-6 max-w-2xl font-display text-2xl leading-snug text-cyan italic sm:text-3xl">
             These three take a Software Product from the first call to a release the company can run.
           </p>
-          <a href="#profiles" className="mt-10 flex items-center justify-between gap-6 border border-line bg-card px-6 py-6 hover:border-cyan">
+          <div className="mt-10 flex items-center justify-between gap-6 border border-line bg-card px-6 py-6">
             <span>
               <span className="text-[11px] tracking-[0.18em] text-cyan uppercase">Meet the team</span>
               <span className="mt-3 block max-w-xl text-sm leading-relaxed text-muted">
-                Raihana Fardous, Sabber Ahammed, and Ahmed Zamil. The skills sit on the card, and more opens behind Adding more.
+                <a href="#ahmed-zamil" className="font-semibold text-cyan hover:text-ink">
+                  Ahmed Zamil
+                </a>
+                , Raihana Fardous, and Sabber Ahammed. The skills sit on the card, and more opens behind Adding more.
               </span>
             </span>
-            <span className="text-cyan" aria-hidden="true">
+            <a href="#ahmed-zamil" className="text-cyan" aria-label="Go to Ahmed Zamil">
               →
-            </span>
-          </a>
+            </a>
+          </div>
           <a href={upwork.href} target="_blank" rel="noreferrer" className="mt-6 inline-flex text-sm font-semibold text-cyan hover:text-ink">
             Open the live Upwork profile
           </a>

@@ -103,7 +103,7 @@ export default function AboutPage() {
           <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">Team</p>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">The three people who write the software.</h2>
           <p className="mt-4 text-lg leading-relaxed text-muted">
-            Raihana Fardous, Sabber Ahammed, and Ahmed Zamil are on the team page, with the reviews, the profiles, and the work in one place.
+            Ahmed Zamil, Raihana Fardous, and Sabber Ahammed are on the team page, with the reviews, the profiles, and the work in one place.
           </p>
           <Link href="/team" className="mt-8 inline-flex h-11 items-center border border-cyan px-5 text-sm font-semibold text-cyan hover:bg-cyan hover:text-black">
             Meet the team
