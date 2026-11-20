@@ -6,6 +6,7 @@ import { ProcessRail } from "@/components/process-rail";
 import { CtaBand } from "@/components/cta-band";
 import { FaqList } from "@/components/faq-list";
 import { BrandName } from "@/components/brand-name";
+import { HomeActions } from "@/components/home-actions";
 import { Reveal } from "@/components/reveal";
 import { Timeline } from "@/components/timeline";
 import { pillars, practices, promises, stack } from "@/lib/site";
@@ -25,14 +26,7 @@ export default function HomePage() {
             <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted lg:mx-0">
               <BrandName /> designs, builds, and runs web, mobile, and cloud products for teams that need software they can trust, from the first release onward.
             </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
-              <Link href="/contact" className="inline-flex h-12 items-center border border-line-strong px-6 text-sm font-semibold hover:border-cyan hover:text-cyan">
-                Start a project
-              </Link>
-              <Link href="/work" className="inline-flex h-12 items-center border border-line-strong px-6 text-sm font-semibold hover:border-cyan hover:text-cyan">
-                See the work
-              </Link>
-            </div>
+            <HomeActions />
           </Reveal>
           <LiveWindow />
         </div>

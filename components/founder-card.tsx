@@ -31,6 +31,10 @@ export function FounderCard({ founder }: { founder: Founder }) {
           <div className="relative mt-6 h-56 w-56 overflow-hidden rounded-full border border-cyan/30 shadow-[0_0_40px_rgba(0,216,240,0.18)] sm:h-64 sm:w-64">
             <Image src={founder.photo} alt={founder.name} fill sizes="256px" className="object-cover object-top" />
           </div>
+          <a href={`mailto:${founder.email}`} className="email-glow mt-5 text-center text-sm font-semibold">
+            <span className="block text-[10px] tracking-[0.18em] uppercase">Email</span>
+            <span className="mt-1 block">{founder.email}</span>
+          </a>
         </div>
         <div className="bg-black px-6 py-6 sm:px-8 sm:py-8">
           <YearFigure years={founder.yearsCount} />
