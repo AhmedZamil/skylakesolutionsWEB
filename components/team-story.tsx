@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useInView, useReducedMotion } from "framer-motion";
+import { SeeProfile } from "@/components/see-profile";
 
 const aiSteps = [
   {
@@ -246,6 +247,7 @@ function AiProcess() {
           </p>
         </div>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted">A human expert leads. AI does the heavy lifting. A human expert checks.</p>
+        <SeeProfile />
 
         <div className="relative mt-8 h-[3px] bg-line" aria-hidden="true">
           <div
@@ -335,6 +337,7 @@ function WorldStats() {
           <span className="font-display font-normal text-cyan italic"> builds software</span>
         </h2>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted">AI-assisted development is no longer an experiment. It is the standard.</p>
+        <SeeProfile />
         <div className="mt-8 grid gap-3 lg:grid-cols-3">
           {stats.slice(0, 3).map((item) => (
             <StatCard key={item.value} item={item} seen={seen} reduce={reduce} />
@@ -369,6 +372,7 @@ function CoreTeam() {
         <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted">
           Three senior engineers who have worked together for more than 12 years, backed by junior developers and a wide network of trusted senior specialists.
         </p>
+        <SeeProfile />
 
         <div className="mt-8 flex flex-wrap items-center gap-2 border border-line bg-[#070d16] px-4 py-4">
           <span className="mr-2 text-[10px] tracking-[0.18em] text-cyan uppercase">Clients served in</span>

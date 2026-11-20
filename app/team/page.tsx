@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { CtaBand } from "@/components/cta-band";
 import { FounderCard } from "@/components/founder-card";
+import { SeeProfile } from "@/components/see-profile";
 import { TeamStory } from "@/components/team-story";
 import { founders } from "@/lib/about";
 import { upwork } from "@/lib/reviews";
@@ -30,7 +31,7 @@ export default function TeamPage() {
                 <a href="#ahmed-zamil" className="font-semibold text-cyan hover:text-ink">
                   Ahmed Zamil
                 </a>
-                , Raihana Fardous, and Sabber Ahammed. The skills sit on the card, and more opens behind Adding more.
+                , Raihana Fardous, and Sabber Ahammed. Skills, the Upwork record, and why hire are already open on each card.
               </span>
             </span>
             <a href="#ahmed-zamil" className="text-cyan" aria-label="Go to Ahmed Zamil">
@@ -40,12 +41,13 @@ export default function TeamPage() {
           <a href={upwork.href} target="_blank" rel="noreferrer" className="mt-6 inline-flex text-sm font-semibold text-cyan hover:text-ink">
             Open the live Upwork profile
           </a>
+          <SeeProfile />
         </div>
       </section>
 
       <TeamStory />
 
-      <section id="profiles" className="border-b border-line px-6 py-16 sm:px-8 sm:py-20">
+      <section id="profiles" className="scroll-mt-28 border-b border-line px-6 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl space-y-8">
           {founders.map((founder) => (
             <FounderCard key={founder.name} founder={founder} />

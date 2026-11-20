@@ -14,7 +14,7 @@ export function FounderCard({ founder }: { founder: Founder }) {
   const hire = founderHire[founder.name];
   const chips = visibleChips(founder.name, founder.chips);
   const reduce = useReducedMotion();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   return (
     <article id={founder.name.toLowerCase().replaceAll(" ", "-")} className="scroll-mt-28 overflow-hidden rounded-2xl border border-line bg-[#070d16] shadow-[0_40px_120px_-40px_rgba(0,216,240,0.25)]">
