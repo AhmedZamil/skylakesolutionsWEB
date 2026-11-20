@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type FocusEvent, type ReactNode } from "react";
 import { BookPanel } from "@/components/book-panel";
 import { BrandName } from "@/components/brand-name";
+import { LikeNote } from "@/components/like-note";
 import { LogoMark } from "@/components/logo-mark";
 import { industries, nav } from "@/lib/site";
 
@@ -12,7 +13,8 @@ export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
-  const [held, setHeld] = useState<"book" | "start" | null>(null);
+  const [held, setHeld] = useState<"book" | "like" | null>(null);
+  const [like, setLike] = useState<"desk" | "mobile" | null>(null);
 
   function releaseHeld(event: FocusEvent<HTMLAnchorElement>) {
     const next = event.relatedTarget;
@@ -22,6 +24,7 @@ export function Header() {
   useEffect(() => {
     setOpen(false);
     setSolutionsOpen(false);
+    setLike(null);
   }, [pathname]);
 
   useEffect(() => {
@@ -96,8 +99,10 @@ export function Header() {
 
         <div
           className="chase-pair hidden items-center gap-2 lg:flex"
-          data-held={held ? "" : undefined}
-          onMouseLeave={() => setHeld(null)}
+          data-held={held || like === "desk" ? "" : undefined}
+          onMouseLeave={() => {
+            if (like !== "desk") setHeld(null);
+          }}
         >
           <ChaseLink href="/book" selected={held === "book"} onPick={() => setHeld("book")} onRelease={releaseHeld}>
             <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
@@ -106,9 +111,7 @@ export function Header() {
             </span>
             Book a call
           </ChaseLink>
-          <ChaseLink href="/contact" selected={held === "start"} onPick={() => setHeld("start")} onRelease={releaseHeld}>
-            Start a project
-          </ChaseLink>
+          <LikeControl open={like === "desk"} onToggle={() => setLike((value) => (value === "desk" ? null : "desk"))} onHold={() => setHeld("like")} />
         </div>
 
         <button
@@ -165,16 +168,14 @@ export function Header() {
               </div>
             ))}
           </nav>
-          <div className="chase-pair mt-5" data-held={held ? "" : undefined}>
+          <div className="chase-pair mt-5" data-held={held || like === "mobile" ? "" : undefined}>
             <ChaseLink href="/book" full selected={held === "book"} onPick={() => setHeld("book")} onRelease={releaseHeld}>
               <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-cyan" />
               </span>
               Book a call
             </ChaseLink>
-            <ChaseLink href="/contact" full selected={held === "start"} onPick={() => setHeld("start")} onRelease={releaseHeld}>
-              Start a project
-            </ChaseLink>
+            <LikeControl full open={like === "mobile"} onToggle={() => setLike((value) => (value === "mobile" ? null : "mobile"))} onHold={() => setHeld("like")} />
           </div>
         </div>
       ) : null}
@@ -220,6 +221,60 @@ function SolutionsPanel() {
         <BookPanel live />
       </div>
     </div>
+  );
+}
+
+function LikeControl({ full = false, open, onToggle, onHold }: { full?: boolean; open: boolean; onToggle: () => void; onHold: () => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onToggle();
+    };
+    const onPointer = (event: PointerEvent) => {
+      if (!ref.current?.contains(event.target as Node)) onToggle();
+    };
+    window.addEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onPointer);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onPointer);
+    };
+  }, [open, onToggle]);
+
+  return (
+    <div ref={ref} className={full ? "relative" : "relative"}>
+      <button
+        type="button"
+        aria-expanded={open}
+        data-selected={open ? "" : undefined}
+        onMouseEnter={onHold}
+        onFocus={onHold}
+        onClick={onToggle}
+        className={full ? "chase-link is-full mt-3" : "chase-link"}
+      >
+        <span className={`relative z-[1] m-px inline-flex items-center gap-2 border border-cyan/40 bg-bg text-left text-ink ${full ? "h-auto w-full justify-center px-4 py-3" : "h-auto min-h-11 px-3 py-2"}`}>
+          <span className="relative flex h-1.5 w-1.5 shrink-0" aria-hidden="true">
+            <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan opacity-70" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-cyan" />
+          </span>
+          <span>
+            <Heart />
+            <span className="mt-0.5 block max-w-[9.5rem] text-[10px] leading-tight font-semibold tracking-normal text-cyan">Like The Team to Reach you in email</span>
+          </span>
+        </span>
+      </button>
+      {open ? <LikeNote full={full} /> : null}
+    </div>
+  );
+}
+
+function Heart() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4 text-cyan" fill="currentColor" aria-hidden="true">
+      <path d="M12 20.5s-6.8-4.2-9.2-8.2C1 9.4 2.2 6 5.6 5.4 7.6 5 9.2 6 12 8.4 14.8 6 16.4 5 18.4 5.4c3.4.6 4.6 4 2.8 6.9-2.4 4-9.2 8.2-9.2 8.2Z" />
+    </svg>
   );
 }
 
