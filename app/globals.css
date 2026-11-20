@@ -313,6 +313,23 @@ html[data-intro="skip"] .intro-cover {
   }
 }
 
+.email-blink {
+  animation: email-blink 0.7s ease-in-out 3;
+}
+
+@keyframes email-blink {
+  0%,
+  100% {
+    border-color: #35506e;
+    box-shadow: none;
+  }
+  40%,
+  60% {
+    border-color: #00d8f0;
+    box-shadow: 0 0 16px rgba(0, 216, 240, 0.55);
+  }
+}
+
 .hex-glow {
   opacity: 0;
   animation: hex-pulse 2.4s ease-in-out infinite;
@@ -616,6 +633,7 @@ html[data-intro="skip"] .intro-cover {
   .arch-pulse,
   .year-glow,
   .chase-link::before,
+  .email-blink,
   .marquee-track,
   .job-bar,
   .hex-glow,
