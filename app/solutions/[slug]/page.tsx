@@ -51,26 +51,19 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
 
       <Comparison />
 
-      <section className="border-b border-line px-6 py-16 sm:px-8 md:py-20">
-        <div className="mx-auto max-w-6xl">
-          <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">Work</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">In this industry</h2>
-          {work.length > 0 ? (
+      {work.length > 0 ? (
+        <section className="border-b border-line px-6 py-16 sm:px-8 md:py-20">
+          <div className="mx-auto max-w-6xl">
+            <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">Work</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">In this industry</h2>
             <div className="mt-10 grid gap-6 md:grid-cols-2 md:gap-7">
               {work.map((study) => (
                 <StudyCard key={study.slug} study={study} />
               ))}
             </div>
-          ) : (
-            <div className="mt-8 max-w-xl border border-line bg-card p-7">
-              <p className="text-muted">No public study in this industry yet.</p>
-              <Link href="/book" className="mt-5 inline-flex text-sm font-semibold text-cyan">
-                Book a call
-              </Link>
-            </div>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      ) : null}
 
       <section className="px-6 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-5xl">

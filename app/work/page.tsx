@@ -5,7 +5,7 @@ import { studies } from "@/lib/work";
 
 export const metadata: Metadata = {
   title: "Work",
-  description: "Case studies from Sky Lake Solutions. Aerotake and Premier School ERP are live.",
+  description: "Case studies from Sky Lake Solutions. SkyTravex, Aerotake, and Premier School ERP are live.",
 };
 
 export default function WorkPage() {
@@ -21,7 +21,7 @@ export default function WorkPage() {
             </span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-            Each study is a product Sky Lake designed, built, and shipped. Aerotake and Premier School ERP are live. The other entries hold the same shape until their real stories, and their screenshots, are ready.
+            Each study is a product Sky Lake designed, built, and shipped. SkyTravex, Aerotake, and Premier School ERP are live.
           </p>
         </div>
       </section>

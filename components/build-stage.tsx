@@ -27,11 +27,11 @@ const builds = [
   {
     n: "03",
     title: "SaaS",
-    text: "A product a school can sign in to and run, with the exam window as its own screen.",
-    stack: ["Odoo", "Python", "PostgreSQL"],
-    image: "/work/premier-exam.png",
-    alt: "Premier School exam dashboard",
-    href: "/work/premier-school-erp",
+    text: "An admin office, a B2B agent portal, and a branded B2C site, on one booking engine, one wallet, and one ledger.",
+    stack: ["Next.js", "GDS", "NDC"],
+    image: "/work/skytravex-home.png",
+    alt: "SkyTravex homepage, fares, agents and money in one system",
+    href: "/work/skytravex",
   },
 ] as const;
 

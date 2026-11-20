@@ -33,6 +33,9 @@ export function HomeActions() {
         <Link href="/team" className="inline-flex h-12 items-center border border-line-strong px-6 text-sm font-semibold hover:border-cyan hover:text-cyan">
           Meet the team
         </Link>
+        <Link href="/work" className="inline-flex h-12 items-center border border-line-strong px-6 text-sm font-semibold hover:border-cyan hover:text-cyan">
+          Co-founded projects
+        </Link>
       </div>
       {open ? <LikeNote inline /> : null}
     </div>
