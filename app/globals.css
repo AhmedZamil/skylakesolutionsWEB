@@ -382,6 +382,68 @@ html[data-intro="skip"] .intro-cover {
   }
 }
 
+.more-glow {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: 0 0 18px rgba(0, 216, 240, 0.35);
+}
+
+.more-glow::before {
+  content: "";
+  position: absolute;
+  inset: -60%;
+  background: conic-gradient(transparent 0 70%, #00d8f0 84%, #ffffff 91%, transparent 100%);
+  animation: chase-spin 2.8s linear infinite;
+}
+
+.more-glow > span {
+  position: relative;
+  z-index: 1;
+  margin: 1px;
+  display: inline-flex;
+  height: 2.75rem;
+  align-items: center;
+  border: 1px solid rgba(0, 216, 240, 0.4);
+  background: #05070c;
+  padding-inline: 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #e7eef8;
+}
+
+.more-glow[data-open]::before {
+  animation: none;
+  background: #00d8f0;
+}
+
+.upwork-card {
+  border: 1px solid rgba(0, 216, 240, 0.55);
+  background: radial-gradient(ellipse at 20% 0%, rgba(0, 216, 240, 0.16), transparent 55%), #070d16;
+  box-shadow: 0 0 28px rgba(0, 216, 240, 0.18);
+}
+
+.hire-star {
+  color: #ffb020;
+  opacity: 0.35;
+  animation: star-blink 2.6s ease-in-out infinite;
+}
+
+@keyframes star-blink {
+  0%,
+  18%,
+  100% {
+    opacity: 0.35;
+    filter: none;
+  }
+  6%,
+  12% {
+    opacity: 1;
+    filter: drop-shadow(0 0 6px #ffb020);
+  }
+}
+
 .more-band {
   display: grid;
   grid-template-rows: 0fr;
@@ -573,8 +635,14 @@ html[data-intro="skip"] .intro-cover {
   .glow-blink,
   .more-rule,
   .more-chip,
-  .more-project {
+  .more-project,
+  .more-glow::before,
+  .hire-star {
     animation: none;
+  }
+
+  .hire-star {
+    opacity: 1;
   }
 
   .more-band {
