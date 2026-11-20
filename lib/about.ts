@@ -99,19 +99,12 @@ export const founders = [
     chips: ["Next.js", "TypeScript", "C#", "Angular", "PostgreSQL"],
     points: [
       "Fifteen years as a full-stack developer, with hundreds of contributions across the products he has shipped.",
-      "Contributor and architect of the Binary Quest ventures: bQuick ERP, CRM, SCM, HRM, Payroll, VAT, and Accessories ERP, and the hospital, school, production, document, and e-commerce solutions built on them.",
+      "CTO (Team Lead) for years in a Microsoft-partnered company.",
     ],
-    venture: {
-      src: "/work/binaryquest-suite.png",
-      alt: "bQuick suite and the Binary Quest solutions Sabber Ahammed architected",
-      width: 713,
-      height: 402,
-      href: "https://www.binaryquest.com/portfolio",
-    },
     stats: [],
     highlight: "",
     timeline: [
-      { when: "Mar 2014 — Present", title: "Contributor & Architect", detail: "Binary Quest · bQuick ERP, CRM, SCM, HRM, Payroll, VAT, Accessories ERP, and the industry solutions" },
+      { when: "Mar 2014 — Present", title: "CTO (Team Lead)", detail: "Microsoft-partnered company · for years · Binary Quest Limited, Dhaka" },
       { when: "Apr 2025 — Present", title: "Adjunct Assistant Professor", detail: "United International University · part-time" },
       { when: "Mar 2012 — Feb 2014", title: "Software Engineer", detail: "SmartAspects · Dhaka" },
       { when: "Apr 2008 — Dec 2008", title: "Teacher Assistant", detail: "United International University · Dhaka" },
@@ -155,10 +148,9 @@ const raihanaWhy = [
 
 const sabberWhy = [
   "A veteran of architecture and development, from N-tier to monolithic to microservices.",
-  "Contributor and architect of the Binary Quest ventures, across ERP, CRM, hospital, school, and e-commerce.",
   "SaaS expert.",
   "Architecture across hundreds of heavy builds, and team lead of about 12 teams.",
-  "CTO for 5 years in a Microsoft-partnered company.",
+  "CTO (Team Lead) for years in a Microsoft-partnered company.",
   "Reads the business domain and puts it into software that runs.",
   "Also part of ICMA, finance, with a sharp read of software against the business.",
 ] as const;
@@ -181,7 +173,7 @@ export const founderHire = {
     upworkCard: false,
   },
   "Sabber Ahammed": {
-    line: [{ text: "Veteran engineer. Software architecture, and 15 years of continuous contribution to large systems." }] as GlowPart[],
+    line: [{ text: "CTO (Team Lead) for years in a Microsoft-partnered company." }] as GlowPart[],
     extraChips: ["ASP.NET Core", "OAuth", "JWT", "Microservices", "Polyglot", "CI/CD", "Docker", "Kubernetes", "Monolithic", ".NET Core", "Entity Framework"],
     groupedOnCard: false,
     whyHire: sabberWhy,

@@ -186,7 +186,7 @@ export const studies: Study[] = [
       },
     ],
     outcome:
-      "The portfolio is open at binaryquest.com/portfolio. ABC Photosigns and Redmin Industries are on the page, with the bQuick products and the industry list in the menus. Sabber Ahammed’s profile on this site names him contributor and architect of those ventures.",
+      "The portfolio is open at binaryquest.com/portfolio. ABC Photosigns and Redmin Industries are on the page, with the bQuick products and the industry list in the menus.",
   },
   {
     slug: "aerotake",
