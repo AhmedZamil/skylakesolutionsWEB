@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { ArchitectureGraph, BuildWindow, DhakaClock, ExperienceTimeline, StatRow, YearFigure } from "@/components/about-stage";
+import Link from "next/link";
+import { ArchitectureGraph, BuildWindow, DhakaClock } from "@/components/about-stage";
 import { CtaBand } from "@/components/cta-band";
 import { BrandName } from "@/components/brand-name";
 import { Reveal } from "@/components/reveal";
-import { TeamBoard } from "@/components/team-board";
-import { capabilities, founders, values } from "@/lib/about";
+import { capabilities, values } from "@/lib/about";
 
 export const metadata: Metadata = {
   title: "About",
@@ -100,90 +99,16 @@ export default function AboutPage() {
       </section>
 
       <section className="border-b border-line px-6 py-16 sm:px-8 sm:py-20">
-        <Reveal>
-          <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">The people behind the code</p>
-          <h2 className="mt-4 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">Meet the team</h2>
-          <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted">
-            Three co-founders. A small senior team. Open a live profile to read the full record.
+        <Reveal className="max-w-2xl">
+          <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">Team</p>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">The three people who write the software.</h2>
+          <p className="mt-4 text-lg leading-relaxed text-muted">
+            Raihana Fardous, Sabber Ahammed, and Ahmed Zamil are on the team page, with the reviews, the profiles, and the work in one place.
           </p>
+          <Link href="/team" className="mt-8 inline-flex h-11 items-center border border-cyan px-5 text-sm font-semibold text-cyan hover:bg-cyan hover:text-black">
+            Meet the team
+          </Link>
         </Reveal>
-        <div className="mt-10 space-y-8">
-          {founders.map((founder) => (
-            <article
-              key={founder.name}
-              className="overflow-hidden rounded-2xl border border-line bg-[#070d16] shadow-[0_40px_120px_-40px_rgba(0,216,240,0.25)]"
-            >
-              <div className="flex items-center gap-2 border-b border-line px-4 py-3">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#35506e]" />
-                <span className="h-2.5 w-2.5 rounded-full bg-blue" />
-                <span className="h-2.5 w-2.5 rounded-full bg-cyan" />
-                <span className="ml-3 text-[11px] tracking-[0.16em] text-faint uppercase">{founder.name}</span>
-                <span className="ml-auto text-[11px] tracking-[0.14em] text-cyan/80 uppercase">Profile</span>
-              </div>
-              <div className="grid lg:grid-cols-[minmax(240px,320px)_1fr]">
-                <div className="flex flex-col items-center justify-center bg-black py-10 lg:py-16">
-                  <p className="year-glow font-display text-4xl text-cyan italic sm:text-5xl">Co-Founder</p>
-                  <div className="relative mt-6 h-56 w-56 overflow-hidden rounded-full border border-cyan/30 shadow-[0_0_40px_rgba(0,216,240,0.18)] sm:h-64 sm:w-64">
-                    <Image
-                      src={founder.photo}
-                      alt={founder.name}
-                      fill
-                      sizes="256px"
-                      className="object-cover object-top"
-                    />
-                  </div>
-                </div>
-                <div className="bg-black px-6 py-6 sm:px-8 sm:py-8">
-                  <YearFigure years={founder.yearsCount} />
-                  <h3 className="mt-4 font-display text-4xl text-ink italic sm:text-5xl">{founder.name}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-ink">{founder.title}</p>
-                  <p className="mt-2 text-sm text-muted">
-                    <BrandName />
-                    {founder.place.slice("SKY LAKE SOLUTIONS".length)}
-                  </p>
-                  {founder.stats.length > 0 ? <StatRow stats={founder.stats} /> : null}
-                  {founder.highlight ? (
-                    <p className="mt-6 border border-cyan/40 bg-cyan/5 px-4 py-4 text-sm leading-relaxed text-ink">{founder.highlight}</p>
-                  ) : null}
-                  {founder.timeline.length > 0 ? <ExperienceTimeline items={founder.timeline} /> : null}
-                  <ul className="mt-6 space-y-4">
-                    {founder.points.map((point) => (
-                      <li key={point} className="border-l border-cyan/40 pl-4 text-sm leading-relaxed text-muted">
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
-                  <ul className="mt-6 flex flex-wrap gap-2">
-                    {founder.chips.map((chip) => (
-                      <li key={chip} className="border border-line px-3 py-1 text-[11px] tracking-[0.12em] text-ink uppercase">
-                        {chip}
-                      </li>
-                    ))}
-                  </ul>
-                  <a
-                    href={founder.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-8 inline-flex h-11 items-center border border-cyan px-5 text-sm font-semibold text-cyan transition-colors hover:bg-cyan hover:text-black"
-                  >
-                    {founder.link}
-                  </a>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="border-b border-line px-6 py-16 sm:px-8 sm:py-20">
-        <Reveal>
-          <p className="text-[12px] font-semibold tracking-[0.22em] text-cyan uppercase">The team</p>
-          <h2 className="mt-4 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">The people beside the founders.</h2>
-          <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted">
-            Eight of the bench, with the stacks the studio hires for. The counts are the full roster.
-          </p>
-        </Reveal>
-        <TeamBoard />
       </section>
 
       <section className="border-b border-line px-6 py-16 sm:px-8">

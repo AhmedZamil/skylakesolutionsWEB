@@ -7,6 +7,7 @@ const company = [
   { href: "/work", label: "Work" },
   { href: "/reviews", label: "Reviews" },
   { href: "/about", label: "About" },
+  { href: "/team", label: "Team" },
   { href: "/faq", label: "FAQ" },
   { href: "/careers", label: "Careers" },
   { href: "/book", label: "Book a call" },

@@ -128,6 +128,80 @@ export const bench = [
   { name: "Rafiq", role: "Developer", years: 6, stack: ["Flutter", "Laravel", "Stripe"] },
 ] as const;
 
+export type GlowPart = { text: string; blink?: number };
+
+const sharedWork = [
+  { title: "Aerotake", text: "Live flight search shipped by the studio.", href: "/work/aerotake" },
+  { title: "Premier School ERP", text: "The school system the studio runs for Premier School Dhaka.", href: "/work/premier-school-erp" },
+] as const;
+
+export const founderHire = {
+  "Raihana Fardous": {
+    line: [{ text: "12 years. Continuous remote senior core developer for a single company in the USA." }] as GlowPart[],
+    extraChips: ["Payment gateway", "Stripe", "Commission engine", "Docker", "Kubernetes"],
+    projects: [
+      { title: "MWR Life", text: "Lead developer on a travel and membership platform, with a team in the USA.", href: "https://www.mwrlife.com/" },
+      ...sharedWork,
+    ],
+  },
+  "Sabber Ahammed": {
+    line: [{ text: "Veteran engineer. Software architecture, and 15 years of continuous contribution to large systems." }] as GlowPart[],
+    extraChips: ["ASP.NET Core", "OAuth", "JWT", "Microservices", "Polyglot", "CI/CD", "Docker", "Kubernetes", "Monolithic", ".NET Core", "Entity Framework"],
+    projects: [
+      { title: "Binary Quest", text: "Full-stack developer in Dhaka, including Next.js and TypeScript.", href: "https://www.binaryquest.com/" },
+      ...sharedWork,
+    ],
+  },
+  "Ahmed Zamil": {
+    line: [
+      { text: "Upwork, " },
+      { text: "3", blink: 0 },
+      { text: "," },
+      { text: "1", blink: 1 },
+      { text: "0", blink: 2 },
+      { text: "8", blink: 3 },
+      { text: " hours with " },
+      { text: "$", blink: 4 },
+      { text: "6", blink: 5 },
+      { text: "0", blink: 6 },
+      { text: "K", blink: 7 },
+      { text: "+", blink: 8 },
+      { text: " earnings, only 8 jobs. Full-time full-stack developer on Upwork, across heavy software industries." },
+    ] as GlowPart[],
+    extraChips: [
+      "ASP.NET Core",
+      "OAuth",
+      "JWT",
+      "Microservices",
+      "Polyglot",
+      "CI/CD",
+      "Docker",
+      "Kubernetes",
+      "Monolithic",
+      ".NET Core",
+      "Entity Framework",
+      "Azure",
+      "SharePoint",
+      "Microsoft 365",
+      "Azure CI/CD",
+    ],
+    projects: [
+      { title: "Eight Upwork jobs", text: "The public profile, with the hours and earnings on this card.", href: "https://www.upwork.com/freelancers/~01964ce0e272143895" },
+      ...sharedWork,
+    ],
+  },
+} as const;
+
+export function visibleChips(name: keyof typeof founderHire, chips: readonly string[]) {
+  const seen = new Set<string>();
+  return [...chips, ...founderHire[name].extraChips].filter((chip) => {
+    const key = chip.toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 export const buildLines = [
   "import { ship } from 'skylake'",
   "",
