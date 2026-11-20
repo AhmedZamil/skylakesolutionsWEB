@@ -313,6 +313,11 @@ html[data-intro="skip"] .intro-cover {
   }
 }
 
+.email-glow {
+  color: #00d8f0;
+  text-shadow: 0 0 14px rgba(0, 216, 240, 0.9);
+}
+
 .email-blink {
   animation: email-blink 0.7s ease-in-out 3;
 }

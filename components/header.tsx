@@ -86,6 +86,13 @@ export function Header() {
                 </div>
               );
             }
+            if (item.href === "/team") {
+              return (
+                <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} className="chase-link">
+                  <span className="relative z-[1] m-px inline-flex h-9 items-center bg-bg px-3 text-sm font-semibold text-cyan">{item.label}</span>
+                </Link>
+              );
+            }
             return (
               <Link
                 key={item.href}
@@ -141,6 +148,11 @@ export function Header() {
           <nav aria-label="Mobile" className="flex flex-col">
             {nav.map((item) => (
               <div key={item.href}>
+                {item.href === "/team" ? (
+                  <Link href={item.href} className="chase-link is-full mt-2">
+                    <span className="relative z-[1] m-px flex h-12 w-full items-center bg-bg px-4 text-lg font-semibold text-cyan">{item.label}</span>
+                  </Link>
+                ) : (
                 <Link
                   href={item.href}
                   className={`flex items-center gap-2 border-b border-line py-4 text-lg font-medium ${
@@ -158,6 +170,7 @@ export function Header() {
                     </svg>
                   ) : null}
                 </Link>
+                )}
                 {item.href === "/solutions" ? (
                   <div className="border-b border-line py-2">
                     {industries.map((industry) => (
