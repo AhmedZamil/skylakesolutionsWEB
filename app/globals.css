@@ -444,6 +444,15 @@ html[data-intro="skip"] .intro-cover {
   }
 }
 
+.story-live {
+  border-color: rgba(0, 216, 240, 0.85);
+  box-shadow: 0 0 24px rgba(0, 216, 240, 0.28);
+}
+
+.story-travel {
+  transition: transform 700ms ease, left 700ms ease;
+}
+
 .more-band {
   display: grid;
   grid-template-rows: 0fr;
@@ -645,7 +654,8 @@ html[data-intro="skip"] .intro-cover {
     opacity: 1;
   }
 
-  .more-band {
+  .more-band,
+  .story-travel {
     transition: none;
   }
 
