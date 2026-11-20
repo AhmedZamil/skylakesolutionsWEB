@@ -121,6 +121,20 @@ function MoreBand({ founder, open }: { founder: Founder; open: boolean }) {
           ))}
         </ul>
         {founder.timeline.length > 0 ? <ExperienceTimeline items={founder.timeline} /> : null}
+        {"venture" in founder && founder.venture ? (
+          <figure className="more-project mt-6">
+            <a href={founder.venture.href} target="_blank" rel="noreferrer" className="block overflow-hidden rounded-xl border border-line bg-white">
+              <Image src={founder.venture.src} alt={founder.venture.alt} width={founder.venture.width} height={founder.venture.height} className="h-auto w-full" />
+            </a>
+            <figcaption className="px-1 pt-3 text-sm leading-relaxed text-muted">
+              Contributor and architect of these ventures.{" "}
+              <a href={founder.venture.href} target="_blank" rel="noreferrer" className="font-semibold text-cyan">
+                Open the Binary Quest portfolio
+              </a>
+              .
+            </figcaption>
+          </figure>
+        ) : null}
       </div>
     </div>
   );

@@ -116,6 +116,79 @@ export const studies: Study[] = [
       "SkyTravex is open at skytravex-web.vercel.app. An agency can book a demo or open a WhatsApp chat from the homepage. The sample fare, DAC to DXB for two adults, shows the path: GDS queried, NDC and direct airlines queried, duplicates removed, and the agent price shown with markup already applied.",
   },
   {
+    slug: "binary-quest",
+    name: "Binary Quest",
+    subtitle: "One suite, many industries",
+    summary:
+      "Binary Quest ships the bQuick suite and industry solutions for hospitals, schools, production, documents, and e-commerce. Sabber Ahammed is contributor and architect of those ventures. The portfolio is public.",
+    year: "2014",
+    status: "Live",
+    client: "Binary Quest · Dhaka",
+    role: "Sabber Ahammed, contributor and architect",
+    timeline: "Mar 2014 — present",
+    statusLine: "Live · binaryquest.com/portfolio",
+    url: "https://www.binaryquest.com/portfolio",
+    industries: ["saas-ai", "school-erp", "healthcare", "ecommerce"],
+    cardImage: "/work/binaryquest-abc.png",
+    heroImage: "/work/binaryquest-abc.png",
+    heroAlt: "Binary Quest portfolio: ABC Photosigns, a national signage company in Australia and New Zealand",
+    heroSize: { width: 1720, height: 811 },
+    galleryLayout: "stack",
+    gallery: [
+      {
+        src: "/work/binaryquest-suite.png",
+        alt: "bQuick suite and solutions: ERP, CRM, SCM, HRM, Payroll, VAT, Accessories ERP, and hospital, school, production, document, and e-commerce",
+        caption: "The bQuick suite, and the solutions it is sold into: hospital, school, production, documents, and e-commerce.",
+        width: 713,
+        height: 402,
+      },
+      {
+        src: "/work/binaryquest-redmin.png",
+        alt: "Redmin Industries on the Binary Quest portfolio, with the bQuick product menu open",
+        caption: "Redmin Industries, a chemical company, on a complete Odoo ERP. The product menu is the same bQuick suite.",
+        width: 1777,
+        height: 801,
+      },
+      {
+        src: "/work/binaryquest-industries.png",
+        alt: "Binary Quest industries menu: healthcare, fintech, telecom, retail, e-commerce, and wholesale",
+        caption: "The industries menu: healthcare, fintech, telecom, ITES, retail, e-commerce, automotive, real estate, and wholesale.",
+        width: 1738,
+        height: 736,
+      },
+    ],
+    tags: ["bQuick", "Odoo", "ERP", "SaaS", "Enterprise"],
+    problem:
+      "A product company that serves hospitals, schools, factories, and shops cannot tell one story. Each client has a different operation, and the portfolio has to show both the product suite and the industry it landed in.",
+    approach:
+      "Binary Quest keeps one product family, bQuick, and points it at the industry in front of the client. Sabber Ahammed is contributor and architect of those ventures. The public record is the portfolio at binaryquest.com/portfolio.",
+    stack: ["bQuick", "Odoo", "ERP", "CRM", "Next.js", "TypeScript"],
+    shipped: [
+      {
+        title: "The bQuick suite",
+        text: "bQuick ERP, CRM, SCM, HRM, Payroll, VAT, and Accessories ERP. One family of products, not a separate build for every department.",
+      },
+      {
+        title: "Solutions on that suite",
+        text: "Hospital management, school management, production management, document management, and e-commerce. The same menu sits behind the portfolio.",
+      },
+      {
+        title: "ABC Photosigns",
+        text: "A national photography and installation company across Australia and New Zealand. Binary Quest took the operation from AI-powered job automation to custom mobile apps for field photographers, as one digital system. The portfolio marks it AI, Enterprise, New Zealand, and Signage and Print.",
+      },
+      {
+        title: "Redmin Industries",
+        text: "A chemical company established in 2022. Binary Quest put a complete Odoo ERP in from the start, so the company did not inherit the usual startup pile of separate tools. The portfolio marks it Enterprise, Odoo, Bangladesh, and Chemicals.",
+      },
+      {
+        title: "Industries on the menu",
+        text: "By sector: healthcare, fintech, telecom, and ITES. Commerce and operations: retail, e-commerce, automotive, real estate, and wholesale and distribution.",
+      },
+    ],
+    outcome:
+      "The portfolio is open at binaryquest.com/portfolio. ABC Photosigns and Redmin Industries are on the page, with the bQuick products and the industry list in the menus. Sabber Ahammed’s profile on this site names him contributor and architect of those ventures.",
+  },
+  {
     slug: "aerotake",
     name: "Aerotake",
     subtitle: "Search, compare, and book flights",

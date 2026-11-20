@@ -99,11 +99,19 @@ export const founders = [
     chips: ["Next.js", "TypeScript", "C#", "Angular", "PostgreSQL"],
     points: [
       "Fifteen years as a full-stack developer, with hundreds of contributions across the products he has shipped.",
+      "Contributor and architect of the Binary Quest ventures: bQuick ERP, CRM, SCM, HRM, Payroll, VAT, and Accessories ERP, and the hospital, school, production, document, and e-commerce solutions built on them.",
     ],
+    venture: {
+      src: "/work/binaryquest-suite.png",
+      alt: "bQuick suite and the Binary Quest solutions Sabber Ahammed architected",
+      width: 713,
+      height: 402,
+      href: "https://www.binaryquest.com/portfolio",
+    },
     stats: [],
     highlight: "",
     timeline: [
-      { when: "Mar 2014 — Present", title: "Full-stack Developer", detail: "Binary Quest Limited · Dhaka · Next.js and TypeScript" },
+      { when: "Mar 2014 — Present", title: "Contributor & Architect", detail: "Binary Quest · bQuick ERP, CRM, SCM, HRM, Payroll, VAT, Accessories ERP, and the industry solutions" },
       { when: "Apr 2025 — Present", title: "Adjunct Assistant Professor", detail: "United International University · part-time" },
       { when: "Mar 2012 — Feb 2014", title: "Software Engineer", detail: "SmartAspects · Dhaka" },
       { when: "Apr 2008 — Dec 2008", title: "Teacher Assistant", detail: "United International University · Dhaka" },
@@ -147,6 +155,7 @@ const raihanaWhy = [
 
 const sabberWhy = [
   "A veteran of architecture and development, from N-tier to monolithic to microservices.",
+  "Contributor and architect of the Binary Quest ventures, across ERP, CRM, hospital, school, and e-commerce.",
   "SaaS expert.",
   "Architecture across hundreds of heavy builds, and team lead of about 12 teams.",
   "CTO for 5 years in a Microsoft-partnered company.",
