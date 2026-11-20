@@ -254,27 +254,12 @@ function LikeControl({ full = false, open, onToggle, onHold }: { full?: boolean;
         onClick={onToggle}
         className={full ? "chase-link is-full mt-3" : "chase-link"}
       >
-        <span className={`relative z-[1] m-px inline-flex items-center gap-2 border border-cyan/40 bg-bg text-left text-ink ${full ? "h-auto w-full justify-center px-4 py-3" : "h-auto min-h-11 px-3 py-2"}`}>
-          <span className="relative flex h-1.5 w-1.5 shrink-0" aria-hidden="true">
-            <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan opacity-70" />
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-cyan" />
-          </span>
-          <span>
-            <Heart />
-            <span className="mt-0.5 block max-w-[9.5rem] text-[10px] leading-tight font-semibold tracking-normal text-cyan">Like The Team to Reach you in email</span>
-          </span>
+        <span className={`relative z-[1] m-px inline-flex items-center border border-cyan/40 bg-bg text-sm font-semibold text-ink hover:text-cyan ${full ? "h-12 w-full justify-center px-4" : "h-11 px-4"}`}>
+          One Click To Us
         </span>
       </button>
       {open ? <LikeNote full={full} /> : null}
     </div>
-  );
-}
-
-function Heart() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4 text-cyan" fill="currentColor" aria-hidden="true">
-      <path d="M12 20.5s-6.8-4.2-9.2-8.2C1 9.4 2.2 6 5.6 5.4 7.6 5 9.2 6 12 8.4 14.8 6 16.4 5 18.4 5.4c3.4.6 4.6 4 2.8 6.9-2.4 4-9.2 8.2-9.2 8.2Z" />
-    </svg>
   );
 }
 
