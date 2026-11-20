@@ -129,28 +129,51 @@ export const bench = [
 ] as const;
 
 export type GlowPart = { text: string; blink?: number };
+export type SkillGroup = { label: string; chips: readonly string[] };
 
-const sharedWork = [
-  { title: "Aerotake", text: "Live flight search shipped by the studio.", href: "/work/aerotake" },
-  { title: "Premier School ERP", text: "The school system the studio runs for Premier School Dhaka.", href: "/work/premier-school-erp" },
+const raihanaWhy = [
+  "Computer science and engineering graduate, software development major.",
+  "Remote full-time, 12 continuous years with no pause.",
+  "Works to USA time, with an Agile and Scrum mindset for a long remote engagement.",
+  "Took core responsibility for a large business payment gateway and commission engine.",
+  "Trusted to lead the team.",
+  "Agile, tickets, team meetings, and continuous availability are part of the work.",
+  "A trustworthy remote resource for a heavy build.",
+  "As co-founder, she holds both the business question and the technical one.",
+] as const;
+
+const sabberWhy = [
+  "A veteran of architecture and development, from N-tier to monolithic to microservices.",
+  "SaaS expert.",
+  "Architecture across hundreds of heavy builds, and team lead of about 12 teams.",
+  "CTO for 5 years in a Microsoft-partnered company.",
+  "Reads the business domain and puts it into software that runs.",
+  "Also part of ICMA, finance, with a sharp read of software against the business.",
+] as const;
+
+const ahmedWhy = [
+  "Upwork consultant, full-time full-stack only.",
+  "Remote work with large teams in Denmark, the USA, Canada, New Zealand, and Australia.",
+  "Agile and Scrum, a daily update, and a team meeting at the hour the client needs.",
+  "Computer science and engineering graduate, software development major.",
+  "Remote work with more than 20 teams, carrying the same responsibility as on-site.",
+  "Immediately available.",
 ] as const;
 
 export const founderHire = {
   "Raihana Fardous": {
     line: [{ text: "12 years. Continuous remote senior core developer for a single company in the USA." }] as GlowPart[],
     extraChips: ["Payment gateway", "Stripe", "Commission engine", "Docker", "Kubernetes"],
-    projects: [
-      { title: "MWR Life", text: "Lead developer on a travel and membership platform, with a team in the USA.", href: "https://www.mwrlife.com/" },
-      ...sharedWork,
-    ],
+    groupedOnCard: false,
+    whyHire: raihanaWhy,
+    upworkCard: false,
   },
   "Sabber Ahammed": {
     line: [{ text: "Veteran engineer. Software architecture, and 15 years of continuous contribution to large systems." }] as GlowPart[],
     extraChips: ["ASP.NET Core", "OAuth", "JWT", "Microservices", "Polyglot", "CI/CD", "Docker", "Kubernetes", "Monolithic", ".NET Core", "Entity Framework"],
-    projects: [
-      { title: "Binary Quest", text: "Full-stack developer in Dhaka, including Next.js and TypeScript.", href: "https://www.binaryquest.com/" },
-      ...sharedWork,
-    ],
+    groupedOnCard: false,
+    whyHire: sabberWhy,
+    upworkCard: false,
   },
   "Ahmed Zamil": {
     line: [
@@ -168,29 +191,43 @@ export const founderHire = {
       { text: "+", blink: 8 },
       { text: " earnings, only 8 jobs. Full-time full-stack developer on Upwork, across heavy software industries." },
     ] as GlowPart[],
-    extraChips: [
-      "ASP.NET Core",
-      "OAuth",
-      "JWT",
-      "Microservices",
-      "Polyglot",
-      "CI/CD",
-      "Docker",
-      "Kubernetes",
-      "Monolithic",
-      ".NET Core",
-      "Entity Framework",
-      "Azure",
-      "SharePoint",
-      "Microsoft 365",
-      "Azure CI/CD",
-    ],
-    projects: [
-      { title: "Eight Upwork jobs", text: "The public profile, with the hours and earnings on this card.", href: "https://www.upwork.com/freelancers/~01964ce0e272143895" },
-      ...sharedWork,
-    ],
+    extraChips: [] as string[],
+    groupedOnCard: true,
+    whyHire: ahmedWhy,
+    upworkCard: true,
+    groups: [
+      {
+        label: "Backend",
+        chips: [".NET", ".NET Core", "ASP.NET Core API", "SQL Server", "EF Core", "MassTransit / RabbitMQ", "AutoMapper", "Serilog", "xUnit", "Swagger", "Service Bus", "ASP.NET Identity", "ASP.NET", "C#", "OAuth", "JWT", "Microservices", "Polyglot", "Monolithic", "Entity Framework"],
+      },
+      {
+        label: "Frontend",
+        chips: ["Angular", "Next.js", "RxJS"],
+      },
+      {
+        label: "Cloud and services",
+        chips: ["Azure", "Azure App Service", "Functions", "Azure Storage", "Service Bus", "Container", "Hub", "CI/CD", "Docker deploy on Azure Linux", "Docker", "Kubernetes", "SharePoint", "Microsoft 365", "Azure CI/CD"],
+      },
+    ] as SkillGroup[],
   },
 } as const;
+
+const frontendChip = /angular|next\.js|rxjs|typescript/i;
+const cloudChip = /azure|aws|docker|kubernetes|ci\/cd|ci-cd/i;
+
+export function skillGroups(name: keyof typeof founderHire, chips: readonly string[]): SkillGroup[] {
+  const hire = founderHire[name];
+  if ("groups" in hire && hire.groups) return [...hire.groups];
+  const buckets: Record<string, string[]> = { Backend: [], Frontend: [], "Cloud and services": [] };
+  for (const chip of visibleChips(name, chips)) {
+    if (frontendChip.test(chip)) buckets.Frontend.push(chip);
+    else if (cloudChip.test(chip)) buckets["Cloud and services"].push(chip);
+    else buckets.Backend.push(chip);
+  }
+  return Object.entries(buckets)
+    .filter(([, items]) => items.length > 0)
+    .map(([label, items]) => ({ label, chips: items }));
+}
 
 export function visibleChips(name: keyof typeof founderHire, chips: readonly string[]) {
   const seen = new Set<string>();

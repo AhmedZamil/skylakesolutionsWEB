@@ -5,7 +5,7 @@ import { useReducedMotion } from "framer-motion";
 import type { GlowPart } from "@/lib/about";
 
 const writeMs = 1400;
-const restMs = 3000;
+const restMs = 15000;
 
 export function GlowLine({ parts }: { parts: readonly GlowPart[] }) {
   const reduce = useReducedMotion();
