@@ -4,8 +4,8 @@ import nodemailer from "nodemailer";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const from = "ahmedlutfulzamil@gmail.com";
-const to = ["ahmedlutfulzamil@gmail.com", "skylakesolutionsplc@gmail.com"];
+const from = "skylakesolutionsplc@gmail.com";
+const to = ["ahmedlutfulzamil@gmail.com"];
 const sentence =
   "I have seen the team and their experience, along with Ahmed Zamil, Raihana Fardous, and Sabber Ahammed. I liked the team. Please reach me to talk.";
 
