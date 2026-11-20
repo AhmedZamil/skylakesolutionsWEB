@@ -15,6 +15,7 @@ export function Header() {
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [held, setHeld] = useState<"book" | "like" | null>(null);
   const [like, setLike] = useState<"desk" | "mobile" | null>(null);
+  const [reached, setReached] = useState(false);
 
   function releaseHeld(event: FocusEvent<HTMLAnchorElement>) {
     const next = event.relatedTarget;
@@ -25,6 +26,7 @@ export function Header() {
     setOpen(false);
     setSolutionsOpen(false);
     setLike(null);
+    setReached(new URLSearchParams(window.location.search).get("reached") === "1");
   }, [pathname]);
 
   useEffect(() => {
@@ -111,7 +113,7 @@ export function Header() {
             </span>
             Book a call
           </ChaseLink>
-          <LikeControl open={like === "desk"} onToggle={() => setLike((value) => (value === "desk" ? null : "desk"))} onHold={() => setHeld("like")} />
+          <LikeControl open={like === "desk"} reached={reached} onToggle={() => setLike((value) => (value === "desk" ? null : "desk"))} onHold={() => setHeld("like")} />
         </div>
 
         <button
@@ -175,7 +177,7 @@ export function Header() {
               </span>
               Book a call
             </ChaseLink>
-            <LikeControl full open={like === "mobile"} onToggle={() => setLike((value) => (value === "mobile" ? null : "mobile"))} onHold={() => setHeld("like")} />
+            <LikeControl full open={like === "mobile"} reached={reached} onToggle={() => setLike((value) => (value === "mobile" ? null : "mobile"))} onHold={() => setHeld("like")} />
           </div>
         </div>
       ) : null}
@@ -224,7 +226,7 @@ function SolutionsPanel() {
   );
 }
 
-function LikeControl({ full = false, open, onToggle, onHold }: { full?: boolean; open: boolean; onToggle: () => void; onHold: () => void }) {
+function LikeControl({ full = false, open, reached, onToggle, onHold }: { full?: boolean; open: boolean; reached: boolean; onToggle: () => void; onHold: () => void }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -258,6 +260,7 @@ function LikeControl({ full = false, open, onToggle, onHold }: { full?: boolean;
           One Click To Us
         </span>
       </button>
+      {reached && !open ? <p className={`${full ? "mt-3" : "absolute top-full right-0 z-50 mt-3 w-max"} text-sm text-cyan`}>Sent. The team has your email.</p> : null}
       {open ? <LikeNote full={full} /> : null}
     </div>
   );
