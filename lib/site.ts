@@ -1,7 +1,7 @@
 export const site = {
   name: "Sky Lake Solutions",
   domain: "https://skylakesolutions.com",
-  email: "hello@skylakesolutions.com",
+  email: "ahmedlutfulzamil@gmail.com",
   description:
     "Sky Lake Solutions designs, builds, and runs web, mobile, and cloud products for teams that need software they can trust.",
 };

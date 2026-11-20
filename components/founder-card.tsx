@@ -17,7 +17,7 @@ export function FounderCard({ founder }: { founder: Founder }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <article className="overflow-hidden rounded-2xl border border-line bg-[#070d16] shadow-[0_40px_120px_-40px_rgba(0,216,240,0.25)]">
+    <article id={founder.name.toLowerCase().replaceAll(" ", "-")} className="scroll-mt-28 overflow-hidden rounded-2xl border border-line bg-[#070d16] shadow-[0_40px_120px_-40px_rgba(0,216,240,0.25)]">
       <div className="flex items-center gap-2 border-b border-line px-4 py-3">
         <span className="h-2.5 w-2.5 rounded-full bg-[#35506e]" />
         <span className="h-2.5 w-2.5 rounded-full bg-blue" />

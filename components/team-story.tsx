@@ -90,17 +90,6 @@ const coreStats = [
 const people = [
   {
     years: "15+ years",
-    name: "Sabber Ahammed",
-    role: "Senior Full-Stack Developer · Adjunct Asst. Professor, United International University",
-    points: [
-      "12+ years building systems for Australian and New Zealand clients",
-      ".NET Core, React, Next.js, TypeScript, GraphQL",
-      "18+ delivered projects, including mobile apps",
-    ],
-    line: "Modern web and mobile apps, built to scale",
-  },
-  {
-    years: "15+ years",
     name: "Ahmed Lutful Zamil",
     role: "Senior .NET Full-Stack Consultant",
     points: [
@@ -109,6 +98,17 @@ const people = [
       "Microservices with RabbitMQ, IoT, SaaS",
     ],
     line: "Upwork: $60K+ earned, 3,100+ hours, top client reviews",
+  },
+  {
+    years: "15+ years",
+    name: "Sabber Ahammed",
+    role: "Senior Full-Stack Developer · Adjunct Asst. Professor, United International University",
+    points: [
+      "12+ years building systems for Australian and New Zealand clients",
+      ".NET Core, React, Next.js, TypeScript, GraphQL",
+      "18+ delivered projects, including mobile apps",
+    ],
+    line: "Modern web and mobile apps, built to scale",
   },
   {
     years: "12+ years",
